@@ -17,7 +17,7 @@
                         
                     <tr>
                         <td>{{ $pasien->firstItem() + $loop->index }}</td>
-                        <td><a href="/admin/diagnosa/keputusan/{{ $item->id }}"><b>{{ $item->name }}</b></a></td>
+                        <td><a href="/diagnosa/keputusan/{{ $item->id }}"><b>{{ $item->name }}</b></a></td>
                         <td>{{ $item->umur }}</td>
                         <td>{{ isset($item->penyakit) ? $item->penyakit->name : 'Data Kosong' }}</td>
                         <td>{{ $item->persentase }}</td>

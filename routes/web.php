@@ -46,9 +46,11 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.layouts.wrapper');
     });
-    // Route::get('/pasien/cetak/{id}', [AdminPasienController::class, 'print']);
+
     Route::resource('/pasien', AdminPasienController::class);
     Route::resource('/user', AdminUserController::class);
     Route::resource('/gejala', AdminGejalaController::class);
     Route::resource('/penyakit', AdminPenyakitController::class);
+    Route::post('/penyakit/add-gejala', [AdminPenyakitController::class, 'addGejala']);
+    Route::delete('/penyakit/delete-role/{id}', [AdminPenyakitController::class, 'deleteRole']);
 });

@@ -1,132 +1,183 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DiabExpert</title>
 
-        <title>Laravel</title>
+    <!-- Fonts -->
+    <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-        <!-- Fonts -->
-        <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
 
-        <!-- Styles -->
-        <style>
-            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-gray-100{--tw-bg-opacity: 1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.border-gray-200{--tw-border-opacity: 1;border-color:rgb(229 231 235 / var(--tw-border-opacity))}.border-t{border-top-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.text-center{text-align:center}.text-gray-200{--tw-text-opacity: 1;color:rgb(229 231 235 / var(--tw-text-opacity))}.text-gray-300{--tw-text-opacity: 1;color:rgb(209 213 219 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark\:bg-gray-900{--tw-bg-opacity: 1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark\:text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}}
-        </style>
+        /* Hero Section */
+        .hero {
+            background: url('data:image/jpeg;base64,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') no-repeat center center;
+            background-size: cover;
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+            height: 100vh;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: bold;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
 
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            }
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+        /* Features Section */
+        .feature-icon {
+            font-size: 4rem;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .feature-description {
+            color: #777;
+        }
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+        /* Footer Section */
+        .footer {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
-                        <g clip-path="url(#clip0)" fill="#EF3B2D">
-                            <path d="M248.032 44.676h-16.466v100.23h47.394v-14.748h-30.928V44.676zM337.091 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.431 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162-.001 2.863-.479 5.584-1.432 8.161zM463.954 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.432 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162 0 2.863-.479 5.584-1.432 8.161zM650.772 44.676h-15.606v100.23h15.606V44.676zM365.013 144.906h15.607V93.538h26.776V78.182h-42.383v66.724zM542.133 78.182l-19.616 51.096-19.616-51.096h-15.808l25.617 66.724h19.614l25.617-66.724h-15.808zM591.98 76.466c-19.112 0-34.239 15.706-34.239 35.079 0 21.416 14.641 35.079 36.239 35.079 12.088 0 19.806-4.622 29.234-14.688l-10.544-8.158c-.006.008-7.958 10.449-19.832 10.449-13.802 0-19.612-11.127-19.612-16.884h51.777c2.72-22.043-11.772-40.877-33.023-40.877zm-18.713 29.28c.12-1.284 1.917-16.884 18.589-16.884 16.671 0 18.697 15.598 18.813 16.884h-37.402zM184.068 43.892c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002-35.648-20.524a2.971 2.971 0 00-2.964 0l-35.647 20.522-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v38.979l-29.706 17.103V24.493a3 3 0 00-.103-.776c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002L40.098 1.396a2.971 2.971 0 00-2.964 0L1.487 21.919l-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v122.09c0 1.063.568 2.044 1.489 2.575l71.293 41.045c.156.089.324.143.49.202.078.028.15.074.23.095a2.98 2.98 0 001.524 0c.069-.018.132-.059.2-.083.176-.061.354-.119.519-.214l71.293-41.045a2.971 2.971 0 001.489-2.575v-38.979l34.158-19.666a2.971 2.971 0 001.489-2.575V44.666a3.075 3.075 0 00-.106-.774zM74.255 143.167l-29.648-16.779 31.136-17.926.001-.001 34.164-19.669 29.674 17.084-21.772 12.428-43.555 24.863zm68.329-76.259v33.841l-12.475-7.182-17.231-9.92V49.806l12.475 7.182 17.231 9.92zm2.97-39.335l29.693 17.095-29.693 17.095-29.693-17.095 29.693-17.095zM54.06 114.089l-12.475 7.182V46.733l17.231-9.92 12.475-7.182v74.537l-17.231 9.921zM38.614 7.398l29.693 17.095-29.693 17.095L8.921 24.493 38.614 7.398zM5.938 29.632l12.475 7.182 17.231 9.92v79.676l.001.005-.001.006c0 .114.032.221.045.333.017.146.021.294.059.434l.002.007c.032.117.094.222.14.334.051.124.088.255.156.371a.036.036 0 00.004.009c.061.105.149.191.222.288.081.105.149.22.244.314l.008.01c.084.083.19.142.284.215.106.083.202.178.32.247l.013.005.011.008 34.139 19.321v34.175L5.939 144.867V29.632h-.001zm136.646 115.235l-65.352 37.625V148.31l48.399-27.628 16.953-9.677v33.862zm35.646-61.22l-29.706 17.102V66.908l17.231-9.92 12.475-7.182v33.841z"/>
-                        </g>
-                    </svg>
-                </div>
+        /* Card Image */
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        @if (Route::has('login'))
+            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                @auth
+                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-                <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-2">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Documentation</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laracasts.com" class="underline text-gray-900 dark:text-white">Laracasts</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel-news.com/" class="underline text-gray-900 dark:text-white">Laravel News</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline">Forge</a>, <a href="https://vapor.laravel.com" class="underline">Vapor</a>, <a href="https://nova.laravel.com" class="underline">Nova</a>, and <a href="https://envoyer.io" class="underline">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline">Telescope</a>, and more.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 sm:text-left">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-mt-px w-5 h-5 text-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                            </svg>
-
-                            <a href="https://laravel.bigcartel.com" class="ml-1 underline">
-                                Shop
-                            </a>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-4 -mt-px w-5 h-5 text-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                            </svg>
-
-                            <a href="https://github.com/sponsors/taylorotwell" class="ml-1 underline">
-                                Sponsor
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </div>
-                </div>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                    @endif
+                @endauth
             </div>
+        @endif
+
+        <!-- Landing Page Section -->
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <h1>Welcome to DiabExpert</h1>
+                    <p>Your trusted tool to diagnose and manage diabetes.</p>
+                    <a href="#features" class="btn btn-primary btn-lg mt-4">Start Diagnosis</a>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="container py-5">
+                <h2 class="text-center mb-5">Our Features</h2>
+                <div class="row text-center">
+                    <div class="col-md-4 mb-4">
+                        <div class="feature-icon">
+                            <img src="https://via.placeholder.com/100?text=Icon1" alt="Icon 1">
+                        </div>
+                        <h3 class="feature-title">Accurate Diagnosis</h3>
+                        <p class="feature-description">Get accurate health assessments based on your symptoms and history.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="feature-icon">
+                            <img src="https://via.placeholder.com/100?text=Icon2" alt="Icon 2">
+                        </div>
+                        <h3 class="feature-title">Comprehensive Data</h3>
+                        <p class="feature-description">Track your health data and improve your lifestyle for better management.</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="feature-icon">
+                            <img src="https://via.placeholder.com/100?text=Icon3" alt="Icon 3">
+                        </div>
+                        <h3 class="feature-title">Health Insights</h3>
+                        <p class="feature-description">Understand your health better and receive tailored tips for better outcomes.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action Section -->
+            <section id="cta" class="bg-light py-5">
+                <div class="container text-center">
+                    <h2>Ready to take control of your health?</h2>
+                    <p class="lead">Start diagnosing and managing your health with DiabExpert.</p>
+                    <a href="/diagnosa" class="btn btn-primary btn-lg">Start Diagnosis Now</a>
+                </div>
+            </section>
+
+            <!-- Card Section with Dummy Images -->
+            <section class="container py-5">
+                <h2 class="text-center mb-5">How It Works</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="https://via.placeholder.com/400x250?text=Step+1" class="card-img-top" alt="Step 1">
+                            <div class="card-body">
+                                <h5 class="card-title">Step 1: Input Symptoms</h5>
+                                <p class="card-text">Enter your symptoms and medical history to begin your diagnosis.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="https://via.placeholder.com/400x250?text=Step+2" class="card-img-top" alt="Step 2">
+                            <div class="card-body">
+                                <h5 class="card-title">Step 2: Diagnosis Results</h5>
+                                <p class="card-text">Get your diagnosis results and understand your health condition.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="https://via.placeholder.com/400x250?text=Step+3" class="card-img-top" alt="Step 3">
+                            <div class="card-body">
+                                <h5 class="card-title">Step 3: Tailored Tips</h5>
+                                <p class="card-text">Receive personalized tips to manage and improve your health.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Section -->
+            <section class="footer">
+                <p>&copy; 2023 DiabExpert. All rights reserved.</p>
+            </section>
         </div>
-    </body>
+    </div>
+
+    <!-- Bootstrap JS and Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
 </html>
