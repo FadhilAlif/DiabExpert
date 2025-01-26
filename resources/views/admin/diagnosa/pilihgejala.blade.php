@@ -48,9 +48,9 @@
                                           <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" role="menu" style="">
-                                          <a class="dropdown-item" href="/admin/diagnosa/pilih?gejala_id={{ $item->id }}&nilai=0.6">Kemungkinan Besar</a>
-                                          <a class="dropdown-item" href="/admin/diagnosa/pilih?gejala_id={{ $item->id }}&nilai=0.8">Hampir Pasti</a>
-                                          <a class="dropdown-item" href="/admin/diagnosa/pilih?gejala_id={{ $item->id }}&nilai=1">Pasti</a>
+                                            <a class="dropdown-item" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=0.6') }}">Kemungkinan Besar</a>
+                                            <a class="dropdown-item" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=0.8') }}">Hampir Pasti</a>
+                                            <a class="dropdown-item" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=1') }}">Pasti</a>                                            
                                         </div>
                                       </div>
                                 </td>
@@ -80,7 +80,7 @@
                                 <td>{{ $item->gejala->kode_gejala }}</td>
                                 <td>{{ $item->gejala->name }}</td>
                                 <td>
-                                    <a href="/admin/diagnosa/hapus-gejala?gejala_id={{ $item->gejala_id }}" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                    <a href="/diagnosa/hapus-gejala?gejala_id={{ $item->gejala_id }}" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                 </td>
                             </tr>
 
@@ -88,7 +88,7 @@
 
                         </table>
 
-                        <a href="/admin/diagnosa/proses" class="btn btn-primary btn-block"><i class="fas fa-circle"></i> Diagnosa</a>
+                        <a href="{{ url('/diagnosa/proses') }}" class="btn btn-primary btn-block"><i class="fas fa-circle"></i> Diagnosa</a>
                     </div>
 
 

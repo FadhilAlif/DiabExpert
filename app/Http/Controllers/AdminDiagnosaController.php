@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 class AdminDiagnosaController extends Controller
 {
     //
+
+    // public function __construct()
+    // {
+    //     // Middleware untuk memastikan hanya admin yang dapat mengakses fitur admin
+    //     $this->middleware('auth')->except(['index', 'createPasien', 'pilihGejala', 'pilih', 'hapusGejalaTerpilih', 'prosesDiagnosa', 'keputusan']);
+    // }
+
     public function index()
     {
         //
@@ -30,8 +37,8 @@ class AdminDiagnosaController extends Controller
         ];
         $pasien = Pasien::create($data);
         session()->put('pasien_id', $pasien->id);
-        return redirect('/admin/diagnosa/pilih-gejala');
-    }
+        return redirect('/diagnosa/pilih-gejala'); 
+    }    
 
     public function pilihGejala()
     {
@@ -47,24 +54,30 @@ class AdminDiagnosaController extends Controller
         return view('admin.layouts.wrapper', $data);
     }
 
-    function pilih()
+    public function pilih(Request $request)
     {
-        $gejala_id = request('gejala_id');
-        $cf_user = request('nilai');
-
+        // Ambil gejala_id dan nilai_cf dari query string
+        $gejala_id = $request->get('gejala_id');
+        $nilai_cf = $request->get('nilai');
+    
+        // Dapatkan data role terkait gejala_id
         $role = Role::whereGejalaId($gejala_id)->get();
+    
         foreach ($role as $r) {
             $data  = [
                 'pasien_id' => session()->get('pasien_id'),
                 'penyakit_id' => $r->penyakit_id,
                 'gejala_id' => $gejala_id,
-                'nilai_cf' => $cf_user,
-                'cf_hasil'  => $cf_user * $r->bobot_cf
+                'nilai_cf' => $nilai_cf,
+                'cf_hasil'  => $nilai_cf * $r->bobot_cf
             ];
+            // Simpan diagnosa ke dalam database
             Diagnosa::create($data);
         }
-        return redirect('/admin/diagnosa/pilih-gejala');
-    }
+    
+        // Redirect ke halaman pilih-gejala setelah pemilihan gejala
+        return redirect('/diagnosa/pilih-gejala');
+    }    
 
     function hapusGejalaTerpilih()
     {
@@ -77,21 +90,20 @@ class AdminDiagnosaController extends Controller
             $d = Diagnosa::find($item->id);
             $d->delete();
         }
-        return redirect('/admin/diagnosa/pilih-gejala');
+        return redirect('/diagnosa/pilih-gejala');
     }
 
-    function prosesDiagnosa()
+    public function prosesDiagnosa()
     {
-
         $pasien_id = session()->get('pasien_id');
         $hasil = 0;
         $penyakit_id = '';
-
-
+    
+        // Proses diagnosa sesuai dengan logika Anda
         $role = Role::get();
         foreach ($role as $r) {
             $diagnosa = Diagnosa::wherePasienId($pasien_id)->wherePenyakitId($r->penyakit_id)->whereGejalaId($r->gejala_id)->first();
-
+    
             if ($diagnosa == null) {
                 $data = [
                     'pasien_id' => session()->get('pasien_id'),
@@ -100,11 +112,11 @@ class AdminDiagnosaController extends Controller
                     'nilai_cf' => 0,
                     'cf_hasil'  => 0
                 ];
-
+    
                 Diagnosa::create($data);
             }
         }
-
+    
         $penyakit = Penyakit::get();
         foreach ($penyakit as $p) {
             $diagnosa = Diagnosa::wherePenyakitId($p->id)->wherePasienId($pasien_id)->get();
@@ -114,15 +126,18 @@ class AdminDiagnosaController extends Controller
                 $penyakit_id = $p->id;
             }
         }
-
+    
+        // Update pasien dengan hasil diagnosa
         $pasien = Pasien::find($pasien_id);
         $pasien->akumulasi_cf = $hasil;
         $pasien->persentase  = round($hasil * 100);
         $pasien->penyakit_id = $penyakit_id;
         $pasien->save();
-        return redirect('/admin/diagnosa/keputusan/' . $pasien_id);
+    
+        // Redirect ke halaman keputusan tanpa prefix admin
+        return redirect('/diagnosa/keputusan/' . $pasien_id);
     }
-
+    
     function hitung_cf($data)
     {
         $cf_old = 0;

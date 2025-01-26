@@ -26,10 +26,11 @@
       <p class="login-box-msg">Sign in to start your session</p>
 
       @if (session()->has('loginError'))
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('loginError') }}
-          </div>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ session('loginError') }}
+      </div>
       @endif
+  
       <form action="/login" method="post">
         @csrf
         <div class="input-group mb-3">
@@ -70,7 +71,6 @@
         </div>
       </form>
 
-     
       <!-- /.social-auth-links -->
 
     </div>

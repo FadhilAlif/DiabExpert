@@ -2,7 +2,6 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                {{-- <a href="/admin/pasien/create" class="btn btn-primary mb-2"><i class="fas fa-plus"></i> Tambah</a> --}}
 
                 <table class="table">
                     <tr>

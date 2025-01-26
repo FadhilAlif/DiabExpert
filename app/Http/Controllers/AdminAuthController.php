@@ -25,7 +25,7 @@ class AdminAuthController extends Controller
 
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
-            return redirect('/admin/diagnosa');
+            return redirect('/diagnosa');
         }
 
         return back()->with('loginError', 'Gagal Login. Data tidak ditemukan');

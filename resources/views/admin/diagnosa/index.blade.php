@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
 
-                <form action="/admin/diagnosa/create-pasien" method="post">
+                <form action="/diagnosa/create-pasien" method="post">
 
                     @csrf
                     <div class="form-group">
@@ -17,8 +17,6 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary"> Diagnosa <i class="fas fa-arrow-right"></i></button>
-                    {{-- <a href="/admin/diagnosa/pilih-gejala" class="btn btn-primary"> Diagnosa <i class="fas fa-arrow-right"></i></a> --}}
-
                 </form>
 
             </div>

@@ -2,9 +2,13 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
+                {{-- Diagnosa Baru --}}
+                <a href="/diagnosa" class="btn btn-primary mb-2"><i class="fas fa-file"></i> Diagnosa Baru</a>
 
-                <a href="/admin/diagnosa" class="btn btn-primary mb-2"><i class="fas fa-file"></i> Diagnosa Baru</a>
-                <a href="/admin/pasien/cetak/{{ $pasien->id }}" target="blank" class="btn btn-warning mb-2"><i class="fas fa-print"></i> Cetak</a>
+                {{-- Cetak Hasil Diagnosa --}}
+                <a href="/diagnosa/pasien/cetak/{{ $pasien->id }}" target="_blank" class="btn btn-warning mb-2">
+                    <i class="fas fa-print"></i> Cetak
+                </a>
 
                 <div class="row">
                     <div class="col-md-6">

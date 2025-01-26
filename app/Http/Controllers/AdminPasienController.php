@@ -39,13 +39,21 @@ class AdminPasienController extends Controller
 
     public function print($pasien_id)
     {
-        //
-
+        $pasien = Pasien::with('penyakit')->find($pasien_id);
+        
+        if (!$pasien) {
+            Alert::error('Error', 'Pasien tidak ditemukan');
+            return redirect()->back();
+        }
+        
+        // Ambil data gejala
+        $gejala = Diagnosa::with('gejala')->wherePasienId($pasien_id)->get();
+        
         $data = [
             'title'     => 'Hasil Diagnosa',
-            'pasien'    => Pasien::with('penyakit')->find($pasien_id),
-            'gejala'    => Diagnosa::with('gejala')->wherePasienId($pasien_id)->get(),
+            'pasien'    => $pasien,
+            'gejala'    => $gejala,
         ];
         return view('admin.pasien.cetak', $data);
-    }
-}
+    }    
+};
