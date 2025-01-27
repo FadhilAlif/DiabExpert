@@ -32,7 +32,7 @@
                                     <th>No</th>
                                     <th>Kode</th>
                                     <th>Gejala</th>
-                                    <th>Aksi</th>
+                                    <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,7 +87,7 @@
                                     <th>No</th>
                                     <th>Kode</th>
                                     <th>Gejala</th>
-                                    <th>Aksi</th>
+                                    <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>

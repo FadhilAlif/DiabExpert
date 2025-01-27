@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SISTEM PAKAR | Log in</title>
+  <title>DiabExpert | Log in</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -12,20 +12,21 @@
   <!-- Bootstrap 4 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body class="hold-transition login-page bg-gradient-primary">
+<body class="hold-transition login-page bg-light">
   @include('sweetalert::alert')
-  
+
   <!-- Centered Login Box -->
   <div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="p-4 rounded shadow-lg login-box">
+    <div class="p-4 rounded shadow-lg login-box" style="width: 400px; background: white;">
       <!-- Logo -->
       <div class="mb-4 text-center login-logo">
-        <h1 class="text-primary"><b>Admin</b> Sistem Pakar</h1>
+        <img src="/dist/img/DiabExpert-Logo.png" alt="DiabExpert Logo" class="mb-3" style="width: 64px; height: 64px; object-fit: cover;">
+        <h2 class="text-primary">Admin <b>DiabExpert</b></h2>
       </div>
       
       <div class="border-0 card">
         <div class="card-body">
-          <p class="text-center login-box-msg text-primary">Sign in to start your session</p>
+          <p class="text-center login-box-msg text-dark" style="font-size: 16px;">Sign in to start your session</p>
 
           <!-- Error Message -->
           @if (session()->has('loginError'))
@@ -40,7 +41,7 @@
 
             <!-- Email Input -->
             <div class="form-group">
-              <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}">
+              <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" style="font-size: 14px;">
               @error('email')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -50,7 +51,7 @@
 
             <!-- Password Input -->
             <div class="form-group">
-              <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password">
+              <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" style="font-size: 14px;">
               @error('password')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -60,9 +61,14 @@
 
             <!-- Login Button -->
             <div class="text-center form-group">
-              <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block" style="font-size: 16px; padding: 10px;">Sign In</button>
             </div>
           </form>
+
+          <!-- Footer -->
+          <div class="text-center mt-3" style="font-size: 14px; color: #888;">
+            <p>&copy; 2025 DiabExpert. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -71,6 +77,4 @@
   <!-- jQuery -->
   <script src="/plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></s

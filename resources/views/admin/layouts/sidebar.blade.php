@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/diagnosa" class="brand-link">
-        <img src="/dist/img/DiabExpert-Logo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8;">
+        <img src="/dist/img/DiabExpert-Logo.png" alt="Logo" class="brand-image" style="opacity: .8;">
         <span class="brand-text font-weight-bold">DiabExpert</span>
     </a>
 

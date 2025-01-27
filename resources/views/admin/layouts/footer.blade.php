@@ -1,9 +1,9 @@
- <!-- /.content-wrapper -->
- <footer class="main-footer">
+<!-- /.content-wrapper -->
+<footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.2.0
+        <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2025 <a href="/diagnosa">DiabExpert</a>.</strong> All rights reserved. Built by <a href="https://github.com/FadhilAlif" target="_blank">Fadhil Alif</a>.
 </footer>
 
 <!-- Control Sidebar -->
@@ -25,7 +25,6 @@
 <script src="/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="/dist/js/demo.js"></script> --}}
-<!-- Page specific script -->
 
 </body>
 
