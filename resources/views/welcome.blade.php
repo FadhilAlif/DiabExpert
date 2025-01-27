@@ -10,89 +10,115 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .hero-section {
+            background: url('/dist/img/hero-bg.jpg') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 80px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0.8;
+        }
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        .hero-section p {
+            font-size: 1.25rem;
+        }
+        .feature-card {
+            border: none;
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 18px rgba(0,0,0,0.1);
+        }
+        .feature-card .icon {
+            font-size: 3rem;
+            color: #007bff;
+        }
+        .cta-buttons .btn {
+            font-size: 1.25rem;
+            padding: 12px 25px;
+            border-radius: 25px;
+        }
+        .cta-buttons .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .cta-buttons .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .cta-buttons .btn-secondary {
+            background-color: #28a745;
+            border: none;
+        }
+        .cta-buttons .btn-secondary:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 
-{{-- DiabExpert Landing Page --}}
 <body>
-    <div>
-        <!-- Hero Section -->
-        <div class="bg-primary text-white text-center py-5">
-            <div class="container">
-                <h1 class="display-4 fw-bold">Selamat Datang di <span class="text-warning">DiabExpert</span></h1>
-                <p class="lead mt-3">Sistem Pakar untuk Membantu Diagnosa Diabetes Mellitus secara Akurat dan Cepat</p>
-                <a href="/login" class="btn btn-warning btn-lg mt-4 px-5">Mulai Sekarang</a>
+    <!-- Hero Section -->
+    <div class="hero-section text-center text-white">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Selamat Datang di <span class="text-warning">DiabExpert</span></h1>
+            <p class="lead mt-3">Sistem Pakar untuk Membantu Diagnosa Diabetes Mellitus dengan Cepat dan Akurat</p>
+            <div class="cta-buttons mt-4">
+                <a href="/diagnosa" class="btn btn-primary btn-lg mx-3">Mulai Diagnosa</a>
+                <a href="/login" class="btn btn-secondary btn-lg mx-3">Login Admin</a>
             </div>
         </div>
-
-        <!-- Features Section -->
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold">Mengapa Memilih DiabExpert?</h2>
-                <p class="text-muted">Kami hadir untuk memberikan solusi kesehatan terbaik dalam diagnosa diabetes.</p>
-            </div>
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="bg-light p-4 shadow rounded">
-                        <i class="fas fa-stethoscope fa-3x text-primary mb-3"></i>
-                        <h5 class="fw-bold">Akurat</h5>
-                        <p class="text-muted">Analisis berbasis data terkini dengan tingkat akurasi tinggi.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="bg-light p-4 shadow rounded">
-                        <i class="fas fa-clock fa-3x text-primary mb-3"></i>
-                        <h5 class="fw-bold">Cepat</h5>
-                        <p class="text-muted">Hasil diagnosa dalam detik saja tanpa menunggu lama.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="bg-light p-4 shadow rounded">
-                        <i class="fas fa-user-shield fa-3x text-primary mb-3"></i>
-                        <h5 class="fw-bold">Aman</h5>
-                        <p class="text-muted">Privasi data Anda terjamin dengan sistem keamanan terbaik.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- About Section -->
-        <div class="bg-light py-5">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <img src="/dist/img/Diabetes-1.jpg" alt="Tentang Kami" class="img-fluid rounded shadow">
-                    </div>
-                    <div class="col-md-6">
-                        <h3 class="fw-bold">Tentang DiabExpert</h3>
-                        <p class="text-muted mt-4">
-                            DiabExpert adalah platform berbasis sistem pakar untuk membantu diagnosa diabetes mellitus secara akurat dan efisien. Kami menggabungkan teknologi terkini dengan data medis terpercaya untuk memberikan pengalaman terbaik bagi pengguna.
-                        </p>
-                        <a href="/about" class="btn btn-outline-primary mt-3">Pelajari Lebih Lanjut</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CTA Section -->
-        <div class="bg-primary text-white text-center py-5">
-            <div class="container">
-                <h2 class="fw-bold">Siap untuk Memulai?</h2>
-                <p class="lead mt-3">Jangan tunda lagi, mulai perjalanan Anda menuju kesehatan yang lebih baik bersama DiabExpert.</p>
-                <a href="/register" class="btn btn-warning btn-lg mt-4 px-5">Daftar Sekarang</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="bg-dark text-white py-4">
-            <div class="container text-center">
-                <p class="mb-0">&copy; 2025 DiabExpert. Semua Hak Cipta Dilindungi.</p>
-            </div>
-        </footer>
     </div>
 
-    <!-- Bootstrap JS and Icons -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <!-- Features Section -->
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Mengapa Memilih DiabExpert?</h2>
+            <p class="text-muted">Kami hadir untuk memberikan solusi kesehatan terbaik dalam diagnosa diabetes.</p>
+        </div>
+        <div class="row text-center">
+            <!-- Feature 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-laptop-medical icon"></i>
+                    <h4 class="mt-3">Akurat & Cepat</h4>
+                    <p>DiabExpert memberikan hasil diagnosa yang cepat dan akurat untuk membantu Anda mengambil langkah perawatan terbaik.</p>
+                </div>
+            </div>
+            <!-- Feature 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-users-cog icon"></i>
+                    <h4 class="mt-3">Mudah Digunakan</h4>
+                    <p>DiabExpert dirancang agar mudah digunakan oleh siapa saja, baik pengguna biasa maupun profesional medis.</p>
+                </div>
+            </div>
+            <!-- Feature 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt icon"></i>
+                    <h4 class="mt-3">Keamanan Terjamin</h4>
+                    <p>Data pribadi Anda aman dengan sistem enkripsi dan perlindungan data yang ketat di setiap tahap diagnosa.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>Copyright &copy; 2025 <a href="/diagnosa">DiabExpert</a>. All rights reserved. Built by <a href="https://github.com/FadhilAlif" target="_blank">Fadhil Alif</a>.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
