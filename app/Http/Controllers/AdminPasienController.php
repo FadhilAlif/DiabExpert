@@ -46,14 +46,32 @@ class AdminPasienController extends Controller
             return redirect()->back();
         }
         
-        // Ambil data gejala
-        $gejala = Diagnosa::with('gejala')->wherePasienId($pasien_id)->get();
-        
+        // Ambil semua diagnosa berdasarkan penyakit
+        $diagnosaPerPenyakit = Diagnosa::with('gejala')
+            ->where('pasien_id', $pasien_id)
+            ->get()
+            ->groupBy('penyakit_id'); // Kelompokkan berdasarkan penyakit
+    
+        $gejalaTerpilih = collect();
+    
+        foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
+            // Kelompokkan berdasarkan gejala_id agar tidak duplikat
+            $gejalaPerPenyakit = $diagnosa->groupBy('gejala_id')->map(function ($items) {
+                return $items->first(); // Ambil hanya satu data per gejala
+            });
+    
+            $gejalaTerpilih = $gejalaTerpilih->merge($gejalaPerPenyakit);
+        }
+    
+        // **Hapus duplikasi gejala**
+        $gejalaTerpilih = $gejalaTerpilih->unique('gejala_id');
+    
         $data = [
-            'title'     => 'Hasil Diagnosa',
-            'pasien'    => $pasien,
-            'gejala'    => $gejala,
+            'title'  => 'Hasil Diagnosa',
+            'pasien' => $pasien,
+            'gejala' => $gejalaTerpilih,
         ];
+    
         return view('admin.pasien.cetak', $data);
     }    
 };

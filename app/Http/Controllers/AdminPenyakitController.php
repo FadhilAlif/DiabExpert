@@ -149,7 +149,7 @@ class AdminPenyakitController extends Controller
         ];
 
         Role::create($data);
-        Alert::success('Sukses', 'Data Telah tersimpan');
+        // Alert::success('Sukses', 'Data Telah tersimpan');
         return redirect('/admin/penyakit/' . $request->penyakit_id);
     }
 

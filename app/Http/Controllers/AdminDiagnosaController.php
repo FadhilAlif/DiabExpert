@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diagnosa;
+
 use App\Models\Gejala;
 use App\Models\Pasien;
 use App\Models\Penyakit;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminDiagnosaController extends Controller
 {
@@ -24,11 +26,13 @@ class AdminDiagnosaController extends Controller
     function createPasien(Request $request)
     {
         $data = [
-            'name'      => $request->name,
-            'umur'      => $request->umur,
+            'umur'          => $request->umur,
+            'jenis_kelamin' => $request->jenis_kelamin
         ];
+        
         $pasien = Pasien::create($data);
         session()->put('pasien_id', $pasien->id);
+        
         return redirect('/diagnosa/pilih-gejala'); 
     }    
 
@@ -44,69 +48,42 @@ class AdminDiagnosaController extends Controller
             'content'   => 'admin/diagnosa/pilihgejala'
         ];
         return view('admin.layouts.wrapper', $data);
-    }
-
-    // public function pilih(Request $request)
-    // {
-    //     // Ambil gejala_id dan nilai_cf dari query string
-    //     $gejala_id = $request->get('gejala_id');
-    //     $nilai_cf = $request->get('nilai');
-    
-    //     // Dapatkan data role terkait gejala_id
-    //     $role = Role::whereGejalaId($gejala_id)->get();
-    
-    //     foreach ($role as $r) {
-    //         $data  = [
-    //             'pasien_id' => session()->get('pasien_id'),
-    //             'penyakit_id' => $r->penyakit_id,
-    //             'gejala_id' => $gejala_id,
-    //             'nilai_cf' => $nilai_cf,
-    //             'cf_hasil'  => $nilai_cf * $r->bobot_cf
-    //         ];
-    //         // Simpan diagnosa ke dalam database
-    //         Diagnosa::create($data);
-    //     }
-    
-    //     // Redirect ke halaman pilih-gejala setelah pemilihan gejala
-    //     return redirect('/diagnosa/pilih-gejala');
-    // }    
-
+    }  
     public function pilih(Request $request)
     {
         // Ambil gejala_id dan nilai_cf dari query string
         $gejala_id = $request->get('gejala_id');
-        $nilai_cf = $request->get('nilai');
-
+        $nilai_cf_user = $request->get('nilai');
+    
         // Dapatkan data role terkait gejala_id
         $role = Role::whereGejalaId($gejala_id)->get();
-
-        // Iterasi untuk setiap role dan hitung CF
+    
         foreach ($role as $r) {
             // Hitung CF berdasarkan nilai_cf pengguna dan bobot CF pada role
-            $cf_hasil = $nilai_cf * $r->bobot_cf;
-
+            $cf_hasil = $nilai_cf_user * $r->bobot_cf;
+    
+            // Simpan diagnosa ke dalam database
             $data  = [
                 'pasien_id' => session()->get('pasien_id'),
                 'penyakit_id' => $r->penyakit_id,
                 'gejala_id' => $gejala_id,
-                'nilai_cf' => $nilai_cf,
+                'nilai_cf' => $nilai_cf_user,
                 'cf_hasil'  => $cf_hasil
             ];
-
-            // Simpan diagnosa ke dalam database
+    
             Diagnosa::create($data);
         }
-
-        // Redirect ke halaman pilih-gejala setelah pemilihan gejala
+    
         return redirect('/diagnosa/pilih-gejala');
     }
+    
+
 
     function hapusGejalaTerpilih()
     {
         $gejala_id = request('gejala_id');
         $pasien_id = session()->get('pasien_id');
 
-        // dd($pasien_id);
         $diagnosa = Diagnosa::whereGejalaId($gejala_id)->wherePasienId($pasien_id)->get();
         foreach ($diagnosa as $item) {
             $d = Diagnosa::find($item->id);
@@ -115,144 +92,121 @@ class AdminDiagnosaController extends Controller
         return redirect('/diagnosa/pilih-gejala');
     }
 
-    // public function prosesDiagnosa()
-    // {
-    //     $pasien_id = session()->get('pasien_id');
-    //     $hasil = 0;
-    //     $penyakit_id = '';
+    public function updateKondisi(Request $request)
+    {
+        $diagnosa_id = $request->input('diagnosa_id');
+        $nilai = $request->input('nilai');
     
-    //     // Proses diagnosa sesuai dengan logika Anda
-    //     $role = Role::get();
-    //     foreach ($role as $r) {
-    //         $diagnosa = Diagnosa::wherePasienId($pasien_id)->wherePenyakitId($r->penyakit_id)->whereGejalaId($r->gejala_id)->first();
+        // Temukan diagnosa berdasarkan ID
+        $diagnosa = Diagnosa::find($diagnosa_id);
     
-    //         if ($diagnosa == null) {
-    //             $data = [
-    //                 'pasien_id' => session()->get('pasien_id'),
-    //                 'penyakit_id' => $r->penyakit_id,
-    //                 'gejala_id' => $r->gejala_id,
-    //                 'nilai_cf' => 0,
-    //                 'cf_hasil'  => 0
-    //             ];
+        // Pastikan data ditemukan
+        if ($diagnosa) {
+            // Update nilai_cf sesuai dengan nilai baru
+            $diagnosa->nilai_cf = $nilai;
     
-    //             Diagnosa::create($data);
-    //         }
-    //     }
+            // Hitung kembali cf_hasil
+            $role = Role::whereGejalaId($diagnosa->gejala_id)->first();
+            $cf_hasil = $nilai * $role->bobot_cf;
+            $diagnosa->cf_hasil = $cf_hasil;
     
-    //     $penyakit = Penyakit::get();
-    //     foreach ($penyakit as $p) {
-    //         $diagnosa = Diagnosa::wherePenyakitId($p->id)->wherePasienId($pasien_id)->get();
-    //         $diagnosa_hasil = $this->hitung_cf($diagnosa);
-    //         if ($diagnosa_hasil > $hasil) {
-    //             $hasil = $diagnosa_hasil;
-    //             $penyakit_id = $p->id;
-    //         }
-    //     }
+            // Simpan perubahan
+            $diagnosa->save();
     
-    //     // Update pasien dengan hasil diagnosa
-    //     $pasien = Pasien::find($pasien_id);
-    //     $pasien->akumulasi_cf = $hasil;
-    //     $pasien->persentase  = round($hasil * 100);
-    //     $pasien->penyakit_id = $penyakit_id;
-    //     $pasien->save();
+            // Mengirimkan respons JSON
+            return response()->json(['success' => true]);
+        }
     
-    //     // Redirect ke halaman keputusan tanpa prefix admin
-    //     return redirect('/diagnosa/keputusan/' . $pasien_id);
-    // }
+        // Jika gagal menemukan data
+        return response()->json(['success' => false]);
+    }    
 
     public function prosesDiagnosa()
     {
         $pasien_id = session()->get('pasien_id');
-        $hasil = 0;
-        $penyakit_id = '';
         
-        // Dapatkan data role (gejala yang terkait dengan penyakit)
-        $role = Role::get();
-        foreach ($role as $r) {
-            $diagnosa = Diagnosa::wherePasienId($pasien_id)
-                                ->wherePenyakitId($r->penyakit_id)
-                                ->whereGejalaId($r->gejala_id)
-                                ->first();
-
-            // Jika tidak ada diagnosa untuk gejala dan penyakit ini, buat entri default
-            if ($diagnosa == null) {
-                $data = [
-                    'pasien_id' => $pasien_id,
-                    'penyakit_id' => $r->penyakit_id,
-                    'gejala_id' => $r->gejala_id,
-                    'nilai_cf' => 0,
-                    'cf_hasil'  => 0
-                ];
-                Diagnosa::create($data);
-            }
+        // Dapatkan semua diagnosa berdasarkan pasien
+        $diagnosa = Diagnosa::where('pasien_id', $pasien_id)->get();
+        
+        // Periksa gejala diagnosa 
+        if (count($diagnosa) == 0) {
+            Alert::error('Error', 'Pilih gejala terlebih dahulu');
+            return redirect()->back();
         }
 
-        // Ambil data penyakit yang terkait dengan pasien
-        $penyakit = Penyakit::get();
-        foreach ($penyakit as $p) {
-            // Ambil semua diagnosa yang terkait dengan penyakit ini untuk pasien ini
-            $diagnosa = Diagnosa::wherePenyakitId($p->id)->wherePasienId($pasien_id)->get();
-            
-            // Hitung CF gabungan untuk penyakit ini
-            $diagnosa_hasil = $this->hitung_cf($diagnosa);
-
-            // Tentukan penyakit dengan CF tertinggi
-            if ($diagnosa_hasil > $hasil) {
-                $hasil = $diagnosa_hasil;
-                $penyakit_id = $p->id;
-            }
+        $penyakit_hasil = [];
+        
+        // Dapatkan semua diagnosa berdasarkan penyakit
+        $diagnosaPerPenyakit = $diagnosa->groupBy('penyakit_id');
+        
+        foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
+            $penyakit_hasil[$penyakit_id] = $this->hitung_cf($diagnosa);
         }
-
-        // Update pasien dengan hasil diagnosa (termasuk penyakit dan CF)
+        
+        // Ambil penyakit dengan CF tertinggi
+        $penyakit_tertinggi = collect($penyakit_hasil)->sortDesc()->keys()->first();
+        $cf_tertinggi = $penyakit_hasil[$penyakit_tertinggi];
+        
+        // Simpan hasil ke database
         $pasien = Pasien::find($pasien_id);
-        $pasien->akumulasi_cf = $hasil;
-        $pasien->persentase  = round($hasil * 100, 2);  // Pembulatan 2 desimal
-        $pasien->penyakit_id = $penyakit_id;
+        $pasien->akumulasi_cf = $cf_tertinggi;
+        $pasien->persentase = round($cf_tertinggi * 100, 2);
+        $pasien->penyakit_id = $penyakit_tertinggi;
         $pasien->save();
-
-        // Redirect ke halaman keputusan
+        
         return redirect('/diagnosa/keputusan/' . $pasien_id);
     }
-     
-    // function hitung_cf($data)
-    // {
-    //     $cf_old = 0;
-    //     foreach ($data as $key => $value) {
-    //         if ($key == 0) {
-    //             $cf_old =  0;
-    //         } else {
-    //             $cf_old = $cf_old + $value->cf_hasil * (1 - $cf_old);
-    //         }
-    //     }
-
-    //     return $cf_old;
-    // }
+    
     public function hitung_cf($data)
     {
         $cfOld = 0; // CF awal
-
-        // Iterasi data diagnostik untuk menghitung CF
+    
+        // Urutkan gejala berdasarkan CF Gejala (cf_hasil) dari yang terbesar ke terkecil
+        $data = $data->sortByDesc('cf_hasil'); 
+        
         foreach ($data as $item) {
-            // Gabungkan CF dengan rumus penggabungan CF
-            $cfOld = $cfOld + $item->cf_hasil * (1 - $cfOld);
+            $cfNew = $item->cf_hasil; // Ambil nilai CF gejala
+            $cfOld = $cfOld + ($cfNew * (1 - $cfOld)); // Terapkan rumus CF Combine
         }
-
-        return $cfOld; // Kembalikan nilai CF akhir
+        
+        return $cfOld;
     }
     
     public function keputusan($pasien_id)
     {
-        //
-
         if ($pasien_id == null) {
             $pasien_id = session()->get('pasien_id');
         }
+    
+        $pasien = Pasien::with('penyakit')->find($pasien_id);
+    
+        // Ambil semua diagnosa berdasarkan penyakit
+        $diagnosaPerPenyakit = Diagnosa::with('gejala')
+            ->where('pasien_id', $pasien_id)
+            ->get()
+            ->groupBy('penyakit_id'); // Kelompokkan berdasarkan penyakit
+    
+        $gejalaTerpilih = collect();
+    
+        foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
+            // Kelompokkan berdasarkan gejala_id agar tidak duplikat
+            $gejalaPerPenyakit = $diagnosa->groupBy('gejala_id')->map(function ($items) {
+                return $items->first(); // Ambil hanya satu data per gejala
+            });
+    
+            $gejalaTerpilih = $gejalaTerpilih->merge($gejalaPerPenyakit);
+        }
+    
+        // Hapus duplikasi gejala
+        $gejalaTerpilih = $gejalaTerpilih->unique('gejala_id');
+    
         $data = [
-            'title'     => 'Hasil Diagnosa',
-            'pasien'    => Pasien::with('penyakit')->find($pasien_id),
-            'gejala'    => Diagnosa::with('gejala')->wherePasienId($pasien_id)->get(),
-            'content'   => 'admin/diagnosa/keputusan'
+            'title'  => 'Hasil Diagnosa',
+            'pasien' => $pasien,
+            'gejala' => $gejalaTerpilih,
+            'content' => 'admin/diagnosa/keputusan'
         ];
+    
         return view('admin.layouts.wrapper', $data);
-    }
+    }          
 }

@@ -17,7 +17,6 @@ class AdminAuthController extends Controller
 
     function login(Request $request)
     {
-        // dd('masuk');
         $data = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
@@ -36,6 +35,6 @@ class AdminAuthController extends Controller
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/');
     }
 }
