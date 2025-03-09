@@ -28,11 +28,11 @@
                         </td>
                         <td>
                             <div class="d-flex justify-content-center">
-                                <a href="/admin/penyakit/{{ $item->id }}/edit" class="btn btn-info btn-sm mr-2" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="/admin/penyakit/{{ $item->id }}/edit" class="btn btn-warning btn-sm mr-2" title="Edit"><i class="fas fa-edit"> Edit</i></a>
                                 <form action="/admin/penyakit/{{ $item->id }}" method="POST">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"> Hapus</i></button>
                                 </form>
                             </div>
                         </td>

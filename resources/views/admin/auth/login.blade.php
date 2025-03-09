@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="{{ asset('dist/img/DiabExpert-Logo.png') }}" type="image/x-icon">
   <title>DiabExpert | Log in</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -76,5 +77,5 @@
 
   <!-- jQuery -->
   <script src="/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></s
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

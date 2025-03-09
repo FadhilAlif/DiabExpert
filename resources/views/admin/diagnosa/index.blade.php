@@ -10,20 +10,29 @@
                 <form action="/diagnosa/create-pasien" method="post">
                     @csrf
 
-                    <!-- Nama Pasien -->
-                    <div class="form-group">
-                        <label for="name"><strong>Nama Pasien</strong></label>
-                        <input type="text" id="name" name="name" class="form-control" required placeholder="Masukkan nama pasien" autofocus>
-                    </div>
-
                     <!-- Umur -->
                     <div class="form-group">
                         <label for="umur"><strong>Umur</strong></label>
                         <input type="number" id="umur" name="umur" class="form-control" required placeholder="Masukkan umur pasien">
                     </div>
 
+                    <!-- Jenis Kelamin (Radio Button) -->
+                    <div class="form-group">
+                        <label><strong>Jenis Kelamin</strong></label>
+                        <div class="d-flex">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki" value="Laki-laki" required>
+                                <label class="form-check-label" for="laki">Laki-laki</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="Perempuan" value="Perempuan" required>
+                                <label class="form-check-label" for="perempuan">Perempuan</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Tombol Submit -->
-                    <div class="">
+                    <div>
                         <button type="submit" class="btn btn-primary btn-block">
                             Mulai Diagnosa <i class="fas fa-arrow-right ml-1"></i>
                         </button>

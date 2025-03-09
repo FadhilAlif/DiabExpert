@@ -10,11 +10,10 @@
     
     <!-- Add custom styles -->
     <style>
-        @page {
-            size: portrait;
-            margin: 40px;
+      @page {
+            size: A4 portrait;
+            margin: 20mm;
         }
-
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -120,10 +119,10 @@
     <!-- Patient Info Section -->
     <div class="section-title">Informasi Pasien</div>
     <div class="info-row">
-        <span class="info-label">Nama Pasien</span>: <span class="info-value">{{ $pasien->name }}</span>
+        <span class="info-label">Umur</span>: <span class="info-value">{{ $pasien->umur }}</span>
     </div>
     <div class="info-row">
-        <span class="info-label">Umur</span>: <span class="info-value">{{ $pasien->umur }}</span>
+        <span class="info-label">Jenis Kelamin</span>: <span class="info-value">{{ $pasien->jenis_kelamin }}</span>
     </div>
     <div class="info-row">
         <span class="info-label">Nama Penyakit</span>: <span class="info-value">{{ isset($pasien->penyakit) ? $pasien->penyakit->name : 'Gejala tidak akurat. Silakan lakukan diagnosa ulang' }}</span>
@@ -133,6 +132,24 @@
     </div>
     <div class="info-row">
         <span class="info-label">Persentase</span>: <span class="info-value">{{ $pasien->persentase }}%</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Solusi Medis</span>: 
+        <span class="info-value">
+            @php
+                $tingkat_penanganan = isset($pasien->penyakit) ? json_decode($pasien->penyakit->tingkat_penanganan, true) : null;
+            @endphp
+    
+            @if($pasien->persentase <= 30)
+                {{ $tingkat_penanganan['rendah'] ?? 'Tidak ada data' }}
+            @elseif($pasien->persentase <= 60)
+                {{ $tingkat_penanganan['sedang'] ?? 'Tidak ada data' }}
+            @elseif($pasien->persentase <= 90)
+                {{ $tingkat_penanganan['tinggi'] ?? 'Tidak ada data' }}
+            @else
+                {{ $tingkat_penanganan['sangat_tinggi'] ?? 'Tidak ada data' }}
+            @endif
+        </span>
     </div>
     <div class="info-row">
         <span class="info-label">Deskripsi</span>: <span class="info-value">{{ isset($pasien->penyakit) ? $pasien->penyakit->desc : 'Gejala tidak akurat. Silakan lakukan diagnosa ulang' }}</span>
@@ -157,15 +174,13 @@
         </thead>
         <tbody>
             @foreach ($gejala as $item)
-                @if ($item->cf_hasil != 0)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->gejala->name }}</td>
-                        <td>{{ $item->cf_hasil }}</td>
-                    </tr>
-                @endif
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->gejala->name }}</td>
+                    <td>{{ number_format($item->cf_hasil, 2) }}</td>
+                </tr>
             @endforeach
-        </tbody>
+        </tbody>        
     </table>
 
     <script>

@@ -14,8 +14,8 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th>No</th>
-                                <th>Nama Pasien</th>
                                 <th>Umur</th>
+                                <th>Jenis Kelamin</th>
                                 <th>Diagnosa Penyakit</th>
                                 <th>Keakuratan</th>
                                 <th>Opsi</th>
@@ -27,15 +27,11 @@
                                 <!-- Nomor -->
                                 <td class="text-center">{{ $pasien->firstItem() + $loop->index }}.</td>
                                 
-                                <!-- Nama Pasien -->
-                                <td>
-                                    <a href="/diagnosa/keputusan/{{ $item->id }}" class="text-primary font-weight-bold">
-                                        {{ $item->name }}
-                                    </a>
-                                </td>
+                                <!-- Umur Pasien (Hanya Teks, Tanpa Link) -->
+                                <td class="text-center">{{ $item->umur }}</td>
                                 
-                                <!-- Umur -->
-                                <td class="text-center">{{ $item->umur }} Tahun</td>
+                                <!-- Jenis Kelamin -->
+                                <td class="text-center">{{ $item->jenis_kelamin }}</td>
                                 
                                 <!-- Diagnosa Penyakit -->
                                 <td class="text-center">
@@ -55,18 +51,30 @@
                                 
                                 <!-- Keakuratan -->
                                 <td class="text-center">
-                                    <span class="badge bg-info text-white" style="font-size: 0.8rem; padding: 0.5em 0.5em;">
-                                        {{ $item->persentase }}%
+                                    <span class="badge 
+                                        @if($item->persentase <= 30) bg-success 
+                                        @elseif($item->persentase <= 60) bg-primary 
+                                        @elseif($item->persentase <= 90) bg-warning 
+                                        @else bg-danger 
+                                        @endif
+                                        text-white" style="font-size: 0.8rem; padding: 0.5em 0.5em;">
+                                        {{ $item->persentase }}% 
                                     </span>
-                                </td>
+                                </td>                                
                                 
                                 <!-- Aksi -->
                                 <td class="text-center">
+                                    <!-- Tombol Riwayat Diagnosa -->
+                                    <a href="/diagnosa/keputusan/{{ $item->id }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye"> Lihat</i>
+                                    </a>
+
+                                    <!-- Tombol Hapus -->
                                     <form action="/admin/pasien/{{ $item->id }}" method="POST" class="d-inline">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus pasien ini?')">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fas fa-trash"> Hapus</i>
                                         </button>
                                     </form>
                                 </td>
