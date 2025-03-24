@@ -73,7 +73,7 @@
                                     <form action="/admin/pasien/{{ $item->id }}" method="POST" class="d-inline">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus pasien ini?')">
+                                        <button type="submit" class="btn btn-danger btn-sm">
                                             <i class="fas fa-trash"> Hapus</i>
                                         </button>
                                     </form>

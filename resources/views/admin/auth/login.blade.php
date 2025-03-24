@@ -1,81 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="{{ asset('dist/img/DiabExpert-Logo.png') }}" type="image/x-icon">
-  <title>DiabExpert | Log in</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('dist/img/DiabExpert-Logo.png') }}" type="image/x-icon">
+    <title>DiabExpert | Login Admin</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
-  <!-- Bootstrap 4 -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="hold-transition login-page bg-light">
-  @include('sweetalert::alert')
 
-  <!-- Centered Login Box -->
-  <div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="p-4 rounded shadow-lg login-box" style="width: 400px; background: white;">
-      <!-- Logo -->
-      <div class="mb-4 text-center login-logo">
-        <img src="/dist/img/DiabExpert-Logo.png" alt="DiabExpert Logo" class="mb-3" style="width: 64px; height: 64px; object-fit: cover;">
-        <h2 class="text-primary">Admin <b>DiabExpert</b></h2>
-      </div>
-      
-      <div class="border-0 card">
-        <div class="card-body">
-          <p class="text-center login-box-msg text-dark" style="font-size: 16px;">Sign in to start your session</p>
+<body style="font-family: 'Poppins', sans-serif; background: linear-gradient(45deg, rgba(37, 99, 235, 0.1), rgba(29, 78, 216, 0.05));">
+    @include('sweetalert::alert')
 
-          <!-- Error Message -->
-          @if (session()->has('loginError'))
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('loginError') }}
-          </div>
-          @endif
+    <!-- Back to Home Button -->
+    <a href="/" class="position-absolute text-decoration-none d-flex align-items-center gap-2 m-4 text-dark">
+        <i class="fas fa-arrow-left"></i>
+        <span>Kembali ke Beranda</span>
+    </a>
 
-          <!-- Login Form -->
-          <form action="/login" method="post">
-            @csrf
+    <!-- Login Container -->
+    <div class="min-vh-100 d-flex justify-content-center align-items-center py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-5">
+                    <!-- Login Card -->
+                    <div class="bg-white rounded-4 shadow-lg p-4 p-md-5" style="backdrop-filter: blur(10px);">
+                        <!-- Logo & Title -->
+                        <div class="text-center mb-4">
+                            <img src="/dist/img/DiabExpert-Logo.png" alt="DiabExpert Logo" 
+                                 class="mb-4" 
+                                 style="width: 80px; height: auto; transition: transform 0.3s ease;">
+                            <h3 class="fw-bold text-primary mb-2">Admin DiabExpert</h3>
+                            <p class="text-muted mb-0">Masuk untuk mengelola sistem</p>
+                        </div>
 
-            <!-- Email Input -->
-            <div class="form-group">
-              <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" style="font-size: 14px;">
-              @error('email')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
+                        <!-- Error Message -->
+                        @if (session()->has('loginError'))
+                        <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                {{ session('loginError') }}
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+
+                        <!-- Login Form -->
+                        <form action="/login" method="post">
+                            @csrf
+                            <!-- Email Input -->
+                            <div class="mb-4">
+                                <label for="email" class="form-label text-dark fw-medium mb-2">
+                                    <i class="fas fa-envelope me-2 text-primary"></i>Email
+                                </label>
+                                <div class="input-group">
+                                    <input type="email" 
+                                           id="email"
+                                           name="email" 
+                                           class="form-control form-control-lg bg-light border-0 @error('email') is-invalid @enderror" 
+                                           value="{{ old('email') }}" 
+                                           placeholder="Masukkan email Anda"
+                                           style="border-radius: 12px;">
+                                    @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="mb-4">
+                                <label for="password" class="form-label text-dark fw-medium mb-2">
+                                    <i class="fas fa-lock me-2 text-primary"></i>Password
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" 
+                                           id="password"
+                                           name="password" 
+                                           class="form-control form-control-lg bg-light border-0 @error('password') is-invalid @enderror" 
+                                           placeholder="Masukkan password Anda"
+                                           style="border-radius: 12px;">
+                                    @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Login Button -->
+                            <div class="d-grid mb-4">
+                                <button type="submit" 
+                                        class="btn btn-primary btn-lg fw-medium"
+                                        style="border-radius: 12px; background: linear-gradient(45deg, #2563eb, #1d4ed8); transition: all 0.3s ease;">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Masuk
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Footer -->
+                        <div class="text-center">
+                            <p class="text-muted mb-0" style="font-size: 14px;">
+                                &copy; 2025 DiabExpert. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Password Input -->
-            <div class="form-group">
-              <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" style="font-size: 14px;">
-              @error('password')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-
-            <!-- Login Button -->
-            <div class="text-center form-group">
-              <button type="submit" class="btn btn-primary btn-block" style="font-size: 16px; padding: 10px;">Sign In</button>
-            </div>
-          </form>
-
-          <!-- Footer -->
-          <div class="text-center mt-3" style="font-size: 14px; color: #888;">
-            <p>&copy; 2025 DiabExpert. All rights reserved.</p>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- jQuery -->
-  <script src="/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Scripts -->
+    <script>
+        // Hover effect untuk logo
+        const logo = document.querySelector('img');
+        logo.addEventListener('mouseover', () => {
+            logo.style.transform = 'scale(1.1)';
+        });
+        logo.addEventListener('mouseout', () => {
+            logo.style.transform = 'scale(1)';
+        });
+
+        // Hover effect untuk tombol login
+        const loginBtn = document.querySelector('button[type="submit"]');
+        loginBtn.addEventListener('mouseover', () => {
+            loginBtn.style.transform = 'translateY(-2px)';
+            loginBtn.style.boxShadow = '0 10px 20px rgba(37, 99, 235, 0.2)';
+        });
+        loginBtn.addEventListener('mouseout', () => {
+            loginBtn.style.transform = 'translateY(0)';
+            loginBtn.style.boxShadow = 'none';
+        });
+    </script>
+</body>
+</html>

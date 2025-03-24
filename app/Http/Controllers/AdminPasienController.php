@@ -32,7 +32,7 @@ class AdminPasienController extends Controller
         // die('masuk');
         $pasien = Pasien::find($id);
         $pasien->delete();
-        Alert::success('Sukses', 'Data Telah dihapus');
+        Alert::success('Sukses', 'Data Pasien Telah dihapus');
         return redirect('/admin/pasien');
     }
 
@@ -62,8 +62,8 @@ class AdminPasienController extends Controller
     
             $gejalaTerpilih = $gejalaTerpilih->merge($gejalaPerPenyakit);
         }
-    
-        // **Hapus duplikasi gejala**
+
+        // Hapus duplikasi gejala
         $gejalaTerpilih = $gejalaTerpilih->unique('gejala_id');
     
         $data = [

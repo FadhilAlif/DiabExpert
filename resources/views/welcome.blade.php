@@ -20,151 +20,20 @@
             overflow-x: hidden;
         }
 
-        .navbar {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            padding: 15px 0;
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar-brand-logo {
-            height: 32px;
-            width: auto;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-        .navbar-brand:hover .navbar-brand-logo {
-            transform: scale(1.05);
-        }
-
-        .hero-section {
-            min-height: 100vh;
-            background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.85)),
-                        url('/dist/img/hero-bg.jpg') no-repeat center center;
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            padding: 100px 0;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-
-        .cta-button {
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn-primary {
-            background-color: #fff;
-            color: #2563eb;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #1e40af;
-            color: #fff;
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary:active {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-        }
-
-        .btn-secondary:hover {
-            background-color: #1e40af;
-            border-color: #1e40af;
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary:active {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Styling khusus untuk tombol di navbar */
-        .navbar .btn-primary {
-            background-color: #2563eb;
-            color: #fff;
-            padding: 10px 25px;
-        }
-
-        .navbar .btn-primary:hover {
-            background-color: #1e40af;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .features-section {
-            padding: 100px 0;
-            background-color: #f8fafc;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            color: #64748b;
-            font-size: 1.1rem;
-            margin-bottom: 4rem;
-        }
-
+        /* Animasi untuk Feature Cards */
         .feature-card {
             background-color: #fff;
             border-radius: 20px;
             padding: 40px 30px;
             height: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid #e2e8f0;
+            cursor: pointer;
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
         }
 
         .feature-icon {
@@ -176,11 +45,21 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 25px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            background-color: #1d4ed8;
         }
 
         .feature-icon i {
             font-size: 2rem;
             color: #fff;
+        }
+
+        .feature-card:hover .feature-icon i {
+            animation: bounce 0.8s ease infinite;
         }
 
         .feature-title {
@@ -195,58 +74,53 @@
             line-height: 1.6;
         }
 
-        .stats-section {
-            padding: 80px 0;
-            background-color: #2563eb;
-            color: #fff;
+        /* Animasi untuk How It Works Cards */
+        .step-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .step-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15) !important;
         }
 
-        .stat-label {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .step-card .step-icon {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        footer {
-            background-color: #1e293b;
-            color: #fff;
-            padding: 30px 0;
+        .step-card:hover .step-icon {
+            transform: scale(1.1);
+            background-color: rgba(37, 99, 235, 0.2) !important;
         }
 
-        footer a {
-            color: #60a5fa;
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .step-card:hover .step-number {
+            animation: pulse 1s ease infinite;
         }
 
-        footer a:hover {
-            color: #93c5fd;
+        .step-card:hover .step-icon i {
+            animation: bounce 0.8s ease infinite;
         }
 
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
+        /* Keyframes untuk animasi */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
             }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
+            50% {
+                transform: translateY(-10px);
             }
+        }
 
-            .section-title {
-                font-size: 2rem;
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
             }
-
-            .stat-number {
-                font-size: 2.5rem;
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
             }
-
-            .navbar-brand-logo {
-                height: 32px;
+            100% {
+                transform: translate(-50%, -50%) scale(1);
             }
         }
     </style>
@@ -254,25 +128,28 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm" style="backdrop-filter: blur(10px); transition: all 0.3s ease;">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="{{ asset('dist/img/DiabExpert-Logo.png') }}" alt="DiabExpert Logo" class="navbar-brand-logo">
+            <a class="navbar-brand d-flex align-items-center gap-2 text-primary fw-bold" href="/">
+                <img src="{{ asset('dist/img/DiabExpert-Logo.png') }}" alt="DiabExpert Logo" style="height: 32px; width: auto; transition: transform 0.3s ease;">
                 <span>DiabExpert</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center gap-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="#features">Fitur</a>
+                        <a class="nav-link fw-medium" href="#features">Fitur</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#stats">Statistik</a>
+                        <a class="nav-link fw-medium" href="#how-it-works">Cara Kerja</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/diagnosa">Mulai Diagnosa</a>
+                        <a class="nav-link fw-medium" href="#stats">Statistik</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary rounded-pill px-4 py-2" href="/diagnosa" style="transition: all 0.3s ease;">Mulai Diagnosa</a>
                     </li>
                 </ul>
             </div>
@@ -280,25 +157,25 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="min-vh-100 d-flex align-items-center py-5" style="background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.85)), url('/dist/img/hero-bg.jpg') no-repeat center center; background-size: cover;">
         <div class="container">
-            <div class="hero-content text-center text-white" data-aos="fade-up">
-                <h1 class="hero-title">Diagnosa Diabetes dengan <span class="text-warning">Cerdas & Akurat</span></h1>
-                <p class="hero-subtitle">DiabExpert menggunakan kecerdasan buatan untuk membantu Anda mendiagnosa diabetes mellitus dengan cepat dan akurat.</p>
+            <div class="text-center text-white mx-auto" style="max-width: 800px;" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-4">Diagnosa Diabetes dengan <span class="text-warning">Cerdas & Akurat</span></h1>
+                <p class="fs-5 mb-5 opacity-90">DiabExpert menggunakan kecerdasan buatan untuk membantu Anda mendiagnosa diabetes mellitus dengan cepat dan akurat.</p>
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="/diagnosa" class="btn btn-primary cta-button">Mulai Diagnosa</a>
-                    <a href="/login" class="btn btn-secondary cta-button">Login Admin</a>
+                    <a href="/diagnosa" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-medium" style="transition: all 0.3s ease;">Mulai Diagnosa</a>
+                    <a href="/login" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-medium" style="transition: all 0.3s ease;">Login Admin</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="features-section">
-        <div class="container">
+    <section id="features" class="py-5 bg-light">
+        <div class="container py-5">
             <div class="text-center mb-5" data-aos="fade-up">
-                <h2 class="section-title">Mengapa Memilih DiabExpert?</h2>
-                <p class="section-subtitle">Aplikasi ini dirancang khusus untuk membantu Anda mendiagnosa diabetes mellitus dengan murah, cepat, dapat diakses dimanapun dan kapanpun.</p>
+                <h2 class="display-5 fw-bold text-dark mb-3">Mengapa Memilih DiabExpert?</h2>
+                <p class="fs-5 text-muted">Aplikasi ini dirancang khusus untuk membantu Anda mendiagnosa diabetes mellitus dengan murah, cepat, dapat diakses dimanapun dan kapanpun.</p>
             </div>
             <div class="row g-4">
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
@@ -332,30 +209,91 @@
         </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-5 fw-bold text-dark mb-3">Bagaimana Cara Kerjanya?</h2>
+                <p class="fs-5 text-muted">Ikuti langkah-langkah sederhana berikut untuk mendapatkan hasil diagnosa diabetes yang akurat</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 p-4 text-center position-relative step-card">
+                        <div class="position-absolute top-0 start-50 translate-middle bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold step-number" style="width: 30px; height: 30px;">1</div>
+                        <div class="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mx-auto mb-4 step-icon">
+                            <i class="fas fa-user-edit fs-3 text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Input Data Diri</h4>
+                        <p class="text-muted mb-0">Masukkan data diri Anda seperti umur dan jenis kelamin untuk analisis yang lebih akurat</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 p-4 text-center position-relative step-card">
+                        <div class="position-absolute top-0 start-50 translate-middle bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold step-number" style="width: 30px; height: 30px;">2</div>
+                        <div class="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mx-auto mb-4 step-icon">
+                            <i class="fas fa-clipboard-list fs-3 text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Pilih Gejala</h4>
+                        <p class="text-muted mb-0">Pilih gejala yang Anda alami dan tentukan tingkat keyakinan untuk setiap gejala</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 p-4 text-center position-relative step-card">
+                        <div class="position-absolute top-0 start-50 translate-middle bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold step-number" style="width: 30px; height: 30px;">3</div>
+                        <div class="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mx-auto mb-4 step-icon">
+                            <i class="fas fa-calculator fs-3 text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Proses Diagnosa</h4>
+                        <p class="text-muted mb-0">Sistem akan menganalisis gejala menggunakan metode Certainty Factor</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 p-4 text-center position-relative step-card">
+                        <div class="position-absolute top-0 start-50 translate-middle bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold step-number" style="width: 30px; height: 30px;">4</div>
+                        <div class="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mx-auto mb-4 step-icon">
+                            <i class="fas fa-file-medical-alt fs-3 text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Hasil Diagnosa</h4>
+                        <p class="text-muted mb-0">Dapatkan hasil diagnosa lengkap dengan persentase dan saran medis</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="500">
+                <a href="/diagnosa" class="btn btn-primary btn-lg rounded-pill px-5 py-3">
+                    <i class="fas fa-stethoscope me-2"></i>Mulai Diagnosa Sekarang
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Stats Section -->
-    <section id="stats" class="stats-section">
-        <div class="container">
+    <section id="stats" class="py-5 bg-primary text-white">
+        <div class="container py-4">
             <div class="row text-center">
-                <div class="col-md-4 mb-4 mb-md-0" data-aos="fade-up">
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">Tingkat Akurasi</div>
+                <div class="col-md-3 mb-4 mb-md-0" data-aos="fade-up">
+                    <div class="display-4 fw-bold mb-2">98%</div>
+                    <div class="fs-5 opacity-75">Tingkat Akurasi</div>
                 </div>
-                <div class="col-md-4 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <div class="stat-number">1000+</div>
-                    <div class="stat-label">Pengguna Aktif</div>
+                <div class="col-md-3 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                    <div class="display-4 fw-bold mb-2">15+</div>
+                    <div class="fs-5 opacity-75">Gejala Teridentifikasi</div>
                 </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Dukungan Sistem</div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="display-4 fw-bold mb-2">2</div>
+                    <div class="fs-5 opacity-75">Tipe Diabetes</div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="display-4 fw-bold mb-2">24/7</div>
+                    <div class="fs-5 opacity-75">Dukungan Sistem</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="text-center">
+    <footer class="py-4 bg-dark text-white text-center">
         <div class="container">
-            <p class="mb-0">Copyright &copy; 2025 <a href="/">DiabExpert</a>. All rights reserved. Built by <a href="https://github.com/FadhilAlif" target="_blank">Fadhil Alif</a>.</p>
+            <p class="mb-0">Copyright &copy; 2025 <a href="/" class="text-primary text-decoration-none">DiabExpert</a>. All rights reserved. Built by <a href="https://github.com/FadhilAlif" target="_blank" class="text-primary text-decoration-none">Fadhil Alif</a>.</p>
         </div>
     </footer>
 
@@ -381,11 +319,8 @@
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.padding = '10px 0';
-            } else {
-                navbar.style.padding = '20px 0';
-            }
+            navbar.style.padding = window.scrollY > 50 ? '10px 0' : '20px 0';
+            navbar.classList.toggle('shadow', window.scrollY > 50);
         });
     </script>
 </body>
