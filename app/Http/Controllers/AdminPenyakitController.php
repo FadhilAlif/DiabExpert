@@ -11,9 +11,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 class AdminPenyakitController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan daftar semua penyakit
+     * 
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -27,9 +27,9 @@ class AdminPenyakitController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan form untuk menambah penyakit baru
+     * 
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -42,15 +42,14 @@ class AdminPenyakitController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * Menyimpan data penyakit baru ke database
+     * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
-        // dd($request->all());
+        // Validasi input data
         $data =  $request->validate([
             'name'      => 'required',
             'desc'      => 'required',
@@ -63,15 +62,14 @@ class AdminPenyakitController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
+     * Menampilkan detail penyakit beserta gejala terkait
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
-        //
-
+        // Mengambil semua relasi (role) antara penyakit dan gejala
         $role = Role::with('gejala')->wherePenyakitId($id)->get();
         $data = [
             'title'     => 'Penyakit',
@@ -84,10 +82,10 @@ class AdminPenyakitController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * Menampilkan form untuk mengedit penyakit
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -101,11 +99,11 @@ class AdminPenyakitController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Memperbarui data penyakit di database
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -124,24 +122,29 @@ class AdminPenyakitController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * Menghapus data penyakit dari database
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
         //
-        // die('masuk');
         $penyakit = Penyakit::find($id);
         $penyakit->delete();
         Alert::success('Sukses', 'Data Telah dihapus');
         return redirect('/admin/penyakit');
     }
 
+    /**
+     * Menambahkan relasi gejala ke penyakit dengan bobot CF tertentu
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     function addGejala(Request $request)
     {
-        // dd($request->all());
+        // Membuat relasi baru antara penyakit dan gejala (role)
         $data = [
             'penyakit_id' => $request->penyakit_id,
             'gejala_id' => $request->gejala_id,
@@ -149,10 +152,15 @@ class AdminPenyakitController extends Controller
         ];
 
         Role::create($data);
-        // Alert::success('Sukses', 'Data Telah tersimpan');
         return redirect('/admin/penyakit/' . $request->penyakit_id);
     }
 
+    /**
+     * Menghapus relasi antara gejala dan penyakit
+     * 
+     * @param  int  $id ID dari role yang akan dihapus
+     * @return \Illuminate\Http\RedirectResponse
+     */
     function deleteRole($id)
     {
         $role = Role::find($id);

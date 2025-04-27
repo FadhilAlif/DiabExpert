@@ -10,9 +10,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 class AdminPasienController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan daftar pasien dengan paginasi
+     * 
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -25,7 +25,12 @@ class AdminPasienController extends Controller
         return view('admin.layouts.wrapper', $data);
     }
 
-
+    /**
+     * Menghapus data pasien dari database
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         //
@@ -36,7 +41,12 @@ class AdminPasienController extends Controller
         return redirect('/admin/pasien');
     }
 
-
+    /**
+     * Mencetak hasil diagnosa pasien berdasarkan ID
+     * 
+     * @param  int  $pasien_id
+     * @return \Illuminate\View\View
+     */
     public function print($pasien_id)
     {
         $pasien = Pasien::with('penyakit')->find($pasien_id);
@@ -54,6 +64,7 @@ class AdminPasienController extends Controller
     
         $gejalaTerpilih = collect();
     
+        // Proses untuk menghilangkan duplikasi gejala
         foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
             // Kelompokkan berdasarkan gejala_id agar tidak duplikat
             $gejalaPerPenyakit = $diagnosa->groupBy('gejala_id')->map(function ($items) {

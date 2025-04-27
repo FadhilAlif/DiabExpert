@@ -10,9 +10,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 class AdminUserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan daftar semua pengguna
+     * 
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -26,9 +26,9 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan form untuk membuat pengguna baru
+     * 
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -41,15 +41,14 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * Menyimpan data pengguna baru ke dalam database
+     * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
-        // dd($request->all());
+        // Validasi input data
         $data =  $request->validate([
             'name'      => 'required',
             'email'      => 'required|unique:users',
@@ -58,16 +57,17 @@ class AdminUserController extends Controller
             're_pass'       => 'required|same:password'
         ]);
 
+        // Hash password sebelum disimpan untuk keamanan
         $data['password']   = Hash::make($data['password']);
         $user = User::create($data);
-        // dd($user);
+        
         Alert::success('Sukses', 'Data Telah ditambahkan');
         return redirect('/admin/user');
     }
 
     /**
-     * Display the specified resource.
-     *
+     * Menampilkan detail pengguna tertentu
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -77,10 +77,10 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * Menampilkan form untuk mengubah data pengguna
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -94,11 +94,11 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Memperbarui data pengguna di database
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -110,6 +110,7 @@ class AdminUserController extends Controller
             'role'      => 'required',
         ]);
 
+        // Hanya update password jika diisi, jika tidak gunakan password yang sudah ada
         if ($request->password == '') {
             $data['password']   = $user->password;
         } else {
@@ -121,15 +122,13 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * Menghapus data pengguna dari database
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        //
-        // die('masuk');
         $user = User::find($id);
         $user->delete();
         Alert::success('Sukses', 'Data Telah dihapus');

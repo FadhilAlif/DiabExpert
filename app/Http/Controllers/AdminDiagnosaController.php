@@ -13,6 +13,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminDiagnosaController extends Controller
 {
+    /**
+     * Menampilkan halaman utama diagnosa penyakit
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         //
@@ -23,6 +28,13 @@ class AdminDiagnosaController extends Controller
         return view('admin.layouts.wrapper', $data);
     }
 
+    /**
+     * Membuat data pasien baru berdasarkan input umur dan jenis kelamin
+     * Menyimpan ID pasien ke session untuk digunakan di proses selanjutnya
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     function createPasien(Request $request)
     {
         $data = [
@@ -36,6 +48,12 @@ class AdminDiagnosaController extends Controller
         return redirect('/diagnosa/pilih-gejala'); 
     }    
 
+    /**
+     * Menampilkan halaman pilih gejala untuk diagnosa
+     * Memuat data pasien, daftar gejala, dan gejala yang sudah dipilih
+     * 
+     * @return \Illuminate\View\View
+     */
     public function pilihGejala()
     {
         //
@@ -49,6 +67,13 @@ class AdminDiagnosaController extends Controller
         ];
         return view('admin.layouts.wrapper', $data);
     }  
+
+    /**
+     * Memproses gejala yang dipilih dan menghitung nilai CF untuk setiap penyakit terkait
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function pilih(Request $request)
     {
         // Ambil gejala_id dan nilai_cf dari query string
@@ -59,7 +84,7 @@ class AdminDiagnosaController extends Controller
         $role = Role::whereGejalaId($gejala_id)->get();
     
         foreach ($role as $r) {
-            // Hitung CF berdasarkan nilai_cf pengguna dan bobot CF pada role
+            // CF hasil = CF user * CF pakar
             $cf_hasil = $nilai_cf_user * $r->bobot_cf;
     
             // Simpan diagnosa ke dalam database
@@ -70,20 +95,23 @@ class AdminDiagnosaController extends Controller
                 'nilai_cf' => $nilai_cf_user,
                 'cf_hasil'  => $cf_hasil
             ];
-    
             Diagnosa::create($data);
         }
     
         return redirect('/diagnosa/pilih-gejala');
     }
     
-
-
+    /**
+     * Menghapus gejala yang telah dipilih oleh pasien
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
     function hapusGejalaTerpilih()
     {
         $gejala_id = request('gejala_id');
         $pasien_id = session()->get('pasien_id');
 
+        // Hapus semua diagnosa dengan gejala_id dan pasien_id yang sesuai
         $diagnosa = Diagnosa::whereGejalaId($gejala_id)->wherePasienId($pasien_id)->get();
         foreach ($diagnosa as $item) {
             $d = Diagnosa::find($item->id);
@@ -92,6 +120,13 @@ class AdminDiagnosaController extends Controller
         return redirect('/diagnosa/pilih-gejala');
     }
 
+    /**
+     * Memperbarui kondisi (nilai_cf) dari gejala yang dipilih
+     * dan menghitung ulang cf_hasil
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateKondisi(Request $request)
     {
         $diagnosa_id = $request->input('diagnosa_id');
@@ -121,6 +156,12 @@ class AdminDiagnosaController extends Controller
         return response()->json(['success' => false]);
     }    
 
+    /**
+     * Memproses diagnosa dengan menghitung certainty factor
+     * dan menentukan penyakit dengan CF tertinggi
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function prosesDiagnosa()
     {
         $pasien_id = session()->get('pasien_id');
@@ -139,6 +180,7 @@ class AdminDiagnosaController extends Controller
         // Dapatkan semua diagnosa berdasarkan penyakit
         $diagnosaPerPenyakit = $diagnosa->groupBy('penyakit_id');
         
+        // Hitung CF kombinasi untuk setiap penyakit
         foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
             $penyakit_hasil[$penyakit_id] = $this->hitung_cf($diagnosa);
         }
@@ -150,13 +192,20 @@ class AdminDiagnosaController extends Controller
         // Simpan hasil ke database
         $pasien = Pasien::find($pasien_id);
         $pasien->akumulasi_cf = $cf_tertinggi;
-        $pasien->persentase = round($cf_tertinggi * 100, 2);
+        $pasien->persentase = round($cf_tertinggi * 100, 2); // Konversi ke persentase
         $pasien->penyakit_id = $penyakit_tertinggi;
         $pasien->save();
         
         return redirect('/diagnosa/keputusan/' . $pasien_id);
     }
     
+    /**
+     * Menghitung nilai Certainty Factor (CF) gabungan dari beberapa gejala
+     * Menggunakan metode CF Combine: CF(H,E) = CF(E) + CF(H) * (1 - CF(E))
+     * 
+     * @param \Illuminate\Support\Collection $data Kumpulan diagnosa
+     * @return float Nilai CF gabungan
+     */
     public function hitung_cf($data)
     {
         $cfOld = 0; // CF awal
@@ -164,6 +213,7 @@ class AdminDiagnosaController extends Controller
         // Urutkan gejala berdasarkan CF Gejala (cf_hasil) dari yang terbesar ke terkecil
         $data = $data->sortByDesc('cf_hasil'); 
         
+        // Iterasi setiap gejala dan terapkan rumus CF Combine
         foreach ($data as $item) {
             $cfNew = $item->cf_hasil; // Ambil nilai CF gejala
             $cfOld = $cfOld + ($cfNew * (1 - $cfOld)); // Terapkan rumus CF Combine
@@ -172,6 +222,12 @@ class AdminDiagnosaController extends Controller
         return $cfOld;
     }
     
+    /**
+     * Menampilkan hasil keputusan diagnosa berdasarkan ID pasien
+     * 
+     * @param int $pasien_id ID pasien
+     * @return \Illuminate\View\View
+     */
     public function keputusan($pasien_id)
     {
         if ($pasien_id == null) {
@@ -188,6 +244,7 @@ class AdminDiagnosaController extends Controller
     
         $gejalaTerpilih = collect();
     
+        // Proses untuk menghilangkan duplikasi gejala
         foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
             // Kelompokkan berdasarkan gejala_id agar tidak duplikat
             $gejalaPerPenyakit = $diagnosa->groupBy('gejala_id')->map(function ($items) {

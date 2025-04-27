@@ -9,9 +9,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 class AdminGejalaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan daftar semua gejala
+     * 
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -25,9 +25,9 @@ class AdminGejalaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan form untuk membuat gejala baru
+     * 
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -40,15 +40,14 @@ class AdminGejalaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * Menyimpan data gejala baru ke database
+     * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
-        // dd($request->all());
+        // Validasi input data
         $data =  $request->validate([
             'kode_gejala'      => 'required|unique:gejalas',
             'name'      => 'required',
@@ -61,21 +60,21 @@ class AdminGejalaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
+     * Menampilkan detail gejala tertentu
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function show($id)
     {
-        //
+        // Method ini tidak diimplementasikan
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * Menampilkan form untuk mengedit gejala
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
@@ -89,11 +88,11 @@ class AdminGejalaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Memperbarui data gejala di database
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -112,15 +111,14 @@ class AdminGejalaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * Menghapus data gejala dari database
+     * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
         //
-        // die('masuk');
         $gejala = Gejala::find($id);
         $gejala->delete();
         Alert::success('Sukses', 'Data Telah dihapus');
