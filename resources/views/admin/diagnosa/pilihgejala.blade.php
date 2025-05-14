@@ -57,7 +57,7 @@
                                     @endphp
 
                                     @if (!$cek)
-                                    <tr>
+                                    <tr data-gejala-id="{{ $item->id }}">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->kode_gejala }}</td>
                                         <td>{{ $item->name }}</td>
@@ -68,19 +68,19 @@
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item text-secondary" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=0.2') }}">
+                                                    <a class="dropdown-item text-secondary" href="javascript:void(0)" onclick="pilihGejala({{ $item->id }}, 0.2)">
                                                         <i class="fas fa-question-circle text-secondary"></i> Tidak Yakin
                                                     </a>
-                                                    <a class="dropdown-item text-info" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=0.4') }}">
+                                                    <a class="dropdown-item text-info" href="javascript:void(0)" onclick="pilihGejala({{ $item->id }}, 0.4)">
                                                         <i class="fas fa-exclamation-circle text-info"></i> Sedikit Yakin
                                                     </a>
-                                                    <a class="dropdown-item text-primary" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=0.6') }}">
+                                                    <a class="dropdown-item text-primary" href="javascript:void(0)" onclick="pilihGejala({{ $item->id }}, 0.6)">
                                                         <i class="fas fa-exclamation-triangle text-primary"></i> Cukup Yakin
                                                     </a>
-                                                    <a class="dropdown-item text-warning" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=0.8') }}">
+                                                    <a class="dropdown-item text-warning" href="javascript:void(0)" onclick="pilihGejala({{ $item->id }}, 0.8)">
                                                         <i class="fas fa-check-circle text-warning"></i> Hampir Pasti
                                                     </a>
-                                                    <a class="dropdown-item text-danger" href="{{ url('/diagnosa/pilih?gejala_id=' . $item->id . '&nilai=1') }}">
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="pilihGejala({{ $item->id }}, 1)">
                                                         <i class="fas fa-check-circle text-danger"></i> Sangat Yakin
                                                     </a>
                                                 </div>
@@ -176,13 +176,89 @@
         });
     });
 
-    // Fungsi untuk mengupdate nilai kondisi
+    /**
+     * Menangani pemilihan gejala menggunakan AJAX
+     * @param {number} gejalaId - ID gejala yang dipilih
+     * @param {number} nilai - Nilai keyakinan yang dipilih
+     */
+    async function pilihGejala(gejalaId, nilai) {
+        try {
+            const response = await fetch(`/diagnosa/pilih?gejala_id=${gejalaId}&nilai=${nilai}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                // Refresh halaman untuk menampilkan data terbaru
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terjadi kesalahan saat menambahkan gejala'
+            });
+        }
+    }
+
+    /**
+     * Menangani penghapusan gejala menggunakan AJAX
+     * @param {number} gejalaId - ID gejala yang akan dihapus
+     */
+    async function hapusGejala(gejalaId) {
+        try {
+            const result = await Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Gejala yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            });
+
+            if (result.isConfirmed) {
+                const response = await fetch(`/diagnosa/hapus-gejala?gejala_id=${gejalaId}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Refresh halaman untuk menampilkan data terbaru
+                    window.location.reload();
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terjadi kesalahan saat menghapus gejala'
+            });
+        }
+    }
+
+    /**
+     * Menangani update nilai keyakinan gejala
+     * @param {number} diagnosaId - ID diagnosa yang akan diupdate
+     */
     async function updateKondisi(diagnosaId) {
         try {
             const form = document.querySelector(`#form-update-${diagnosaId}`);
             const formData = new FormData(form);
 
-            // Mengirimkan request AJAX menggunakan fetch
             const response = await fetch('/diagnosa/update-kondisi', {
                 method: 'POST',
                 body: formData,
@@ -194,12 +270,16 @@
             const data = await response.json();
             
             if (data.success) {
-                console.log('Data berhasil diperbarui');
-            } else {
-                console.error('Terjadi kesalahan');
+                // Refresh halaman untuk menampilkan data terbaru
+                window.location.reload();
             }
         } catch (error) {
             console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terjadi kesalahan saat mengupdate gejala'
+            });
         }
     }
 </script>

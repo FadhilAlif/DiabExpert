@@ -76,29 +76,48 @@ class AdminDiagnosaController extends Controller
      */
     public function pilih(Request $request)
     {
-        // Ambil gejala_id dan nilai_cf dari query string
-        $gejala_id = $request->get('gejala_id');
-        $nilai_cf_user = $request->get('nilai');
-    
-        // Dapatkan data role terkait gejala_id
-        $role = Role::whereGejalaId($gejala_id)->get();
-    
-        foreach ($role as $r) {
-            // CF hasil = CF user * CF pakar
-            $cf_hasil = $nilai_cf_user * $r->bobot_cf;
-    
-            // Simpan diagnosa ke dalam database
-            $data  = [
-                'pasien_id' => session()->get('pasien_id'),
-                'penyakit_id' => $r->penyakit_id,
-                'gejala_id' => $gejala_id,
-                'nilai_cf' => $nilai_cf_user,
-                'cf_hasil'  => $cf_hasil
-            ];
-            Diagnosa::create($data);
+        try {
+            // Ambil gejala_id dan nilai_cf dari query string
+            $gejala_id = $request->get('gejala_id');
+            $nilai_cf_user = $request->get('nilai');
+        
+            // Dapatkan data role terkait gejala_id
+            $role = Role::whereGejalaId($gejala_id)->get();
+        
+            foreach ($role as $r) {
+                // CF hasil = CF user * CF pakar
+                $cf_hasil = $nilai_cf_user * $r->bobot_cf;
+        
+                // Simpan diagnosa ke dalam database
+                $data  = [
+                    'pasien_id' => session()->get('pasien_id'),
+                    'penyakit_id' => $r->penyakit_id,
+                    'gejala_id' => $gejala_id,
+                    'nilai_cf' => $nilai_cf_user,
+                    'cf_hasil'  => $cf_hasil
+                ];
+                Diagnosa::create($data);
+            }
+        
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Gejala berhasil ditambahkan'
+                ]);
+            }
+        
+            return redirect('/diagnosa/pilih-gejala');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                ], 500);
+            }
+            
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back();
         }
-    
-        return redirect('/diagnosa/pilih-gejala');
     }
     
     /**
@@ -108,16 +127,36 @@ class AdminDiagnosaController extends Controller
      */
     function hapusGejalaTerpilih()
     {
-        $gejala_id = request('gejala_id');
-        $pasien_id = session()->get('pasien_id');
+        try {
+            $gejala_id = request('gejala_id');
+            $pasien_id = session()->get('pasien_id');
 
-        // Hapus semua diagnosa dengan gejala_id dan pasien_id yang sesuai
-        $diagnosa = Diagnosa::whereGejalaId($gejala_id)->wherePasienId($pasien_id)->get();
-        foreach ($diagnosa as $item) {
-            $d = Diagnosa::find($item->id);
-            $d->delete();
+            // Hapus semua diagnosa dengan gejala_id dan pasien_id yang sesuai
+            $diagnosa = Diagnosa::whereGejalaId($gejala_id)->wherePasienId($pasien_id)->get();
+            foreach ($diagnosa as $item) {
+                $d = Diagnosa::find($item->id);
+                $d->delete();
+            }
+
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Gejala berhasil dihapus'
+                ]);
+            }
+
+            return redirect('/diagnosa/pilih-gejala');
+        } catch (\Exception $e) {
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                ], 500);
+            }
+            
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back();
         }
-        return redirect('/diagnosa/pilih-gejala');
     }
 
     /**
@@ -129,31 +168,39 @@ class AdminDiagnosaController extends Controller
      */
     public function updateKondisi(Request $request)
     {
-        $diagnosa_id = $request->input('diagnosa_id');
-        $nilai = $request->input('nilai');
-    
-        // Temukan diagnosa berdasarkan ID
-        $diagnosa = Diagnosa::find($diagnosa_id);
-    
-        // Pastikan data ditemukan
-        if ($diagnosa) {
-            // Update nilai_cf sesuai dengan nilai baru
-            $diagnosa->nilai_cf = $nilai;
-    
-            // Hitung kembali cf_hasil
-            $role = Role::whereGejalaId($diagnosa->gejala_id)->first();
-            $cf_hasil = $nilai * $role->bobot_cf;
-            $diagnosa->cf_hasil = $cf_hasil;
-    
-            // Simpan perubahan
-            $diagnosa->save();
-    
-            // Mengirimkan respons JSON
-            return response()->json(['success' => true]);
+        try {
+            $diagnosa_id = $request->input('diagnosa_id');
+            $nilai = $request->input('nilai');
+        
+            // Temukan diagnosa berdasarkan ID
+            $diagnosa = Diagnosa::find($diagnosa_id);
+        
+            // Pastikan data ditemukan
+            if ($diagnosa) {
+                // Update nilai_cf sesuai dengan nilai baru
+                $diagnosa->nilai_cf = $nilai;
+        
+                // Hitung kembali cf_hasil
+                $role = Role::whereGejalaId($diagnosa->gejala_id)->first();
+                $cf_hasil = $nilai * $role->bobot_cf;
+                $diagnosa->cf_hasil = $cf_hasil;
+        
+                // Simpan perubahan
+                $diagnosa->save();
+        
+                return response()->json(['success' => true]);
+            }
+        
+            return response()->json([
+                'success' => false,
+                'message' => 'Data diagnosa tidak ditemukan'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
         }
-    
-        // Jika gagal menemukan data
-        return response()->json(['success' => false]);
     }    
 
     /**

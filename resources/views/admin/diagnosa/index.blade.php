@@ -13,7 +13,13 @@
                     <!-- Umur -->
                     <div class="form-group">
                         <label for="umur"><strong>Umur</strong></label>
-                        <input type="number" id="umur" name="umur" class="form-control" required placeholder="Masukkan umur pasien">
+                        <input type="number" id="umur" name="umur" class="form-control @error('umur') is-invalid @enderror" 
+                            required min="1" max="100" placeholder="Masukkan umur pasien (1-100)">
+                        @error('umur')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <!-- Jenis Kelamin (Radio Button) -->
@@ -42,3 +48,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Validasi form sebelum submit
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const umur = document.getElementById('umur').value;
+        
+        if (umur < 1 || umur > 100) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Umur harus antara 1 sampai 100 tahun'
+            });
+        }
+    });
+
+    // Validasi input umur saat mengetik
+    document.getElementById('umur').addEventListener('input', function(e) {
+        const value = e.target.value;
+        
+        if (value < 1 || value > 100) {
+            e.target.classList.add('is-invalid');
+        } else {
+            e.target.classList.remove('is-invalid');
+        }
+    });
+</script>
