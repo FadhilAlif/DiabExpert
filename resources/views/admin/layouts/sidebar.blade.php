@@ -39,12 +39,12 @@
                         <p>Gejala</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="/admin/user" class="nav-link {{ Request::is('admin/user*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>User</p>
                     </a>
-                </li>
+                </li> --}}
                 @endif
             </ul>
         </nav>

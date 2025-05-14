@@ -35,7 +35,14 @@
                                     <tr>
                                         <td><strong>Nama Penyakit</strong></td>
                                         <td>
-                                            <span class="badge {{ isset($pasien->penyakit) ? 'badge-success' : 'badge-danger' }}" style="font-size: 0.8rem; padding: 0.5em 0.75em;">
+                                            <span class="badge {{ isset($pasien->penyakit) 
+                                                ? ($pasien->penyakit->name == 'Diabetes Mellitus Tipe 1' 
+                                                    ? 'badge-warning' 
+                                                    : ($pasien->penyakit->name == 'Diabetes Mellitus Tipe 2' 
+                                                        ? 'badge-success' 
+                                                        : 'badge-danger')) 
+                                                : 'badge-danger' }}" 
+                                                style="font-size: 0.8rem; padding: 0.5em 0.75em;">
                                                 {{ isset($pasien->penyakit) ? $pasien->penyakit->name : 'Gejala tidak akurat. Silakan lakukan diagnosa ulang' }}
                                             </span>
                                         </td>                                                                           

@@ -191,8 +191,8 @@ class AdminDiagnosaController extends Controller
         
         // Simpan hasil ke database
         $pasien = Pasien::find($pasien_id);
-        $pasien->akumulasi_cf = $cf_tertinggi;
-        $pasien->persentase = round($cf_tertinggi * 100, 2); // Konversi ke persentase
+        $pasien->akumulasi_cf = round($cf_tertinggi, 4); // Bulatkan ke 4 desimal
+        $pasien->persentase = round($pasien->akumulasi_cf * 100, 2); // Hitung persentase dan bulatkan ke 2 desimal
         $pasien->penyakit_id = $penyakit_tertinggi;
         $pasien->save();
         

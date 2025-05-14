@@ -202,7 +202,7 @@
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <h3 class="feature-title">Privasi Terjamin</h3>
-                        <p class="feature-description">Data Anda dilindungi dengan sistem keamanan tingkat tinggi dan enkripsi end-to-end.</p>
+                        <p class="feature-description">Kami hanya menggunakan data yang anda masukkan untuk diagnosa diabetes</p>
                     </div>
                 </div>
             </div>
@@ -224,7 +224,7 @@
                             <i class="fas fa-user-edit fs-3 text-primary"></i>
                         </div>
                         <h4 class="fw-bold mb-3">Input Data Diri</h4>
-                        <p class="text-muted mb-0">Masukkan data diri Anda seperti umur dan jenis kelamin untuk analisis yang lebih akurat</p>
+                        <p class="text-muted mb-0">Masukkan data diri Anda seperti umur dan jenis kelamin untuk data pasien</p>
                     </div>
                 </div>
                 <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
@@ -234,7 +234,7 @@
                             <i class="fas fa-clipboard-list fs-3 text-primary"></i>
                         </div>
                         <h4 class="fw-bold mb-3">Pilih Gejala</h4>
-                        <p class="text-muted mb-0">Pilih gejala yang Anda alami dan tentukan tingkat keyakinan untuk setiap gejala</p>
+                        <p class="text-muted mb-0">Pilih gejala yang Anda alami dan tentukan tingkat keyakinan untuk setiap gejala yang anda alami</p>
                     </div>
                 </div>
                 <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
@@ -244,7 +244,7 @@
                             <i class="fas fa-calculator fs-3 text-primary"></i>
                         </div>
                         <h4 class="fw-bold mb-3">Proses Diagnosa</h4>
-                        <p class="text-muted mb-0">Sistem akan menganalisis gejala menggunakan metode Certainty Factor</p>
+                        <p class="text-muted mb-0">Sistem akan menganalisis gejala yang anda alami menggunakan metode Certainty Factor</p>
                     </div>
                 </div>
                 <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
@@ -254,7 +254,7 @@
                             <i class="fas fa-file-medical-alt fs-3 text-primary"></i>
                         </div>
                         <h4 class="fw-bold mb-3">Hasil Diagnosa</h4>
-                        <p class="text-muted mb-0">Dapatkan hasil diagnosa lengkap dengan persentase dan saran medis</p>
+                        <p class="text-muted mb-0">Dapatkan hasil diagnosa lengkap dengan persentase dan saran medis yang sesuai</p>
                     </div>
                 </div>
             </div>
