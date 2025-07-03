@@ -160,9 +160,36 @@ class AdminDiagnosaController extends Controller
     }
 
     /**
+     * Proses diagnosa internal (tanpa redirect), untuk update hasil setelah perubahan kondisi gejala
+     *
+     * @param int $pasien_id
+     * @return void
+     */
+    private function prosesDiagnosaInternal($pasien_id)
+    {
+        $diagnosa = Diagnosa::where('pasien_id', $pasien_id)->get();
+        if (count($diagnosa) == 0) return;
+
+        $penyakit_hasil = [];
+        $diagnosaPerPenyakit = $diagnosa->groupBy('penyakit_id');
+        foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
+            $penyakit_hasil[$penyakit_id] = $this->hitung_cf($diagnosa);
+        }
+        $penyakit_tertinggi = collect($penyakit_hasil)->sortDesc()->keys()->first();
+        $cf_tertinggi = $penyakit_hasil[$penyakit_tertinggi];
+
+        $pasien = Pasien::find($pasien_id);
+        $pasien->akumulasi_cf = round($cf_tertinggi, 4);
+        $pasien->persentase = round($pasien->akumulasi_cf * 100, 2);
+        $pasien->penyakit_id = $penyakit_tertinggi;
+        $pasien->save();
+    }
+
+    /**
      * Memperbarui kondisi (nilai_cf) dari gejala yang dipilih
-     * dan menghitung ulang cf_hasil
-     * 
+     * Update semua diagnosa dengan kombinasi pasien_id dan gejala_id yang sama,
+     * lalu hitung ulang hasil diagnosa pasien agar hasil selalu akurat.
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -171,26 +198,29 @@ class AdminDiagnosaController extends Controller
         try {
             $diagnosa_id = $request->input('diagnosa_id');
             $nilai = $request->input('nilai');
-        
-            // Temukan diagnosa berdasarkan ID
             $diagnosa = Diagnosa::find($diagnosa_id);
-        
-            // Pastikan data ditemukan
+
             if ($diagnosa) {
-                // Update nilai_cf sesuai dengan nilai baru
-                $diagnosa->nilai_cf = $nilai;
-        
-                // Hitung kembali cf_hasil
-                $role = Role::whereGejalaId($diagnosa->gejala_id)->first();
-                $cf_hasil = $nilai * $role->bobot_cf;
-                $diagnosa->cf_hasil = $cf_hasil;
-        
-                // Simpan perubahan
-                $diagnosa->save();
-        
+                // Update semua diagnosa dengan kombinasi pasien_id dan gejala_id yang sama
+                // Tujuannya agar tidak ada nilai lama yang tertinggal di database
+                $allDiagnosa = Diagnosa::where('pasien_id', $diagnosa->pasien_id)
+                    ->where('gejala_id', $diagnosa->gejala_id)
+                    ->get();
+
+                foreach ($allDiagnosa as $d) {
+                    // Ambil bobot_cf sesuai kombinasi gejala dan penyakit
+                    $role = Role::whereGejalaId($d->gejala_id)->wherePenyakitId($d->penyakit_id)->first();
+                    $d->nilai_cf = $nilai;
+                    $d->cf_hasil = $nilai * ($role ? $role->bobot_cf : 1);
+                    $d->save();
+                }
+
+                // Proses diagnosa ulang setelah update kondisi (update hasil pasien)
+                $this->prosesDiagnosaInternal($diagnosa->pasien_id);
+
                 return response()->json(['success' => true]);
             }
-        
+
             return response()->json([
                 'success' => false,
                 'message' => 'Data diagnosa tidak ditemukan'
@@ -249,23 +279,26 @@ class AdminDiagnosaController extends Controller
     /**
      * Menghitung nilai Certainty Factor (CF) gabungan dari beberapa gejala
      * Menggunakan metode CF Combine: CF(H,E) = CF(E) + CF(H) * (1 - CF(E))
-     * 
+     *
      * @param \Illuminate\Support\Collection $data Kumpulan diagnosa
      * @return float Nilai CF gabungan
      */
     public function hitung_cf($data)
     {
         $cfOld = 0; // CF awal
-    
-        // Urutkan gejala berdasarkan CF Gejala (cf_hasil) dari yang terbesar ke terkecil
+
+        // Ambil hanya satu diagnosa per gejala (hindari duplikasi data diagnosa untuk gejala yang sama)
+        $data = $data->groupBy('gejala_id')->map(function ($items) {
+            return $items->first();
+        });
+        // Urutkan berdasarkan cf_hasil terbesar ke terkecil agar perhitungan kombinasi CF optimal
         $data = $data->sortByDesc('cf_hasil'); 
-        
+
         // Iterasi setiap gejala dan terapkan rumus CF Combine
         foreach ($data as $item) {
             $cfNew = $item->cf_hasil; // Ambil nilai CF gejala
             $cfOld = $cfOld + ($cfNew * (1 - $cfOld)); // Terapkan rumus CF Combine
         }
-        
         return $cfOld;
     }
     

@@ -1,3 +1,4 @@
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 @include('admin.layouts.head')
 @include('admin.layouts.header')
 @include('admin.layouts.sidebar')
