@@ -64,20 +64,27 @@
                                 
                                 <!-- Aksi -->
                                 <td class="text-center">
-                                    <!-- Tombol Riwayat Diagnosa -->
-                                    <a href="/diagnosa/keputusan/{{ $item->id }}" class="btn btn-info btn-sm">
-                                        <i class="fas fa-eye"> Lihat</i>
-                                    </a>
-
-                                    <!-- Tombol Hapus -->
-                                    <form action="/admin/pasien/{{ $item->id }}" method="POST" class="d-inline">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"> Hapus</i>
-                                        </button>
-                                    </form>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <!-- Tombol Lihat -->
+                                        <a href="/diagnosa/keputusan/{{ $item->id }}"
+                                           class="btn btn-info btn-sm mr-2 d-flex align-items-center justify-content-center"
+                                           style="width: 80px; padding: 0.25rem 0.5rem;">
+                                            <i class="fas fa-eye mr-1"></i> Lihat
+                                        </a>
+                                
+                                        <!-- Tombol Hapus -->
+                                        <form action="/admin/pasien/{{ $item->id }}" method="POST" class="m-0 p-0">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="btn btn-danger btn-sm d-flex align-items-center justify-content-center"
+                                                    style="width: 80px; padding: 0.25rem 0.5rem;">
+                                                <i class="fas fa-trash mr-1"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
+                                
                             </tr>
                             @endforeach
                         </tbody>

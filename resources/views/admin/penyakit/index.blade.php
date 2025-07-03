@@ -27,15 +27,29 @@
                             </a>
                         </td>
                         <td>
-                            <div class="d-flex justify-content-center">
-                                <a href="/admin/penyakit/{{ $item->id }}/edit" class="btn btn-warning btn-sm mr-2" title="Edit"><i class="fas fa-edit"> Edit</i></a>
-                                <form action="/admin/penyakit/{{ $item->id }}" method="POST">
-                                    @method('DELETE')
+                            <div class="d-flex justify-content-center align-items-center">
+                                <!-- Tombol Edit -->
+                                <a href="/admin/penyakit/{{ $item->id }}/edit"
+                                   class="btn btn-warning btn-sm mr-2 d-flex align-items-center justify-content-center"
+                                   style="width: 80px; padding: 0.25rem 0.5rem;"
+                                   title="Edit">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </a>
+                        
+                                <!-- Tombol Hapus -->
+                                <form action="/admin/penyakit/{{ $item->id }}" method="POST" class="m-0 p-0">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"> Hapus</i></button>
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm d-flex align-items-center justify-content-center"
+                                            style="width: 80px; padding: 0.25rem 0.5rem;"
+                                            title="Hapus">
+                                        <i class="fas fa-trash mr-1"></i> Hapus
+                                    </button>
                                 </form>
                             </div>
                         </td>
+                        
                     </tr>
 
                     @endforeach

@@ -25,15 +25,23 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->nilai_cf }}</td>
                             <td>
-                                <div class="d-flex justify-content-center">
-                                    <a href="/admin/gejala/{{ $item->id }}/edit" class="btn btn-warning btn-sm mr-2" title="Edit"><i class="fas fa-edit"> Edit</i></a>
-                                    <form action="/admin/gejala/{{ $item->id }}" method="POST" class="d-inline">
-                                        @method('DELETE')
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a href="/admin/gejala/{{ $item->id }}/edit"
+                                       class="btn btn-warning btn-sm mr-2"
+                                       style="width: 80px; padding: 0.25rem 0.5rem;">
+                                        <i class="fas fa-edit mr-1"></i>Edit
+                                    </a>
+                                    <form action="/admin/gejala/{{ $item->id }}" method="POST" class="m-0 p-0">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"> Hapus</i></button>
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm"
+                                                style="width: 80px; padding: 0.25rem 0.5rem;">
+                                            <i class="fas fa-trash mr-1"></i>Hapus
+                                        </button>
                                     </form>
                                 </div>
-                            </td>
+                            </td>                                                 
                         </tr>
                         @endforeach
                     </tbody>
