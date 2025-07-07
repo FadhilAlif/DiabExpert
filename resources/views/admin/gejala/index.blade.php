@@ -14,7 +14,7 @@
                             <th>Kode Gejala</th>
                             <th>Name</th>
                             <th>Nilai CF</th>
-                            <th>Action</th>
+                            <th>Opsi</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -2,7 +2,13 @@
     <div class="col-lg-6 col-md-10">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Form Tambah Gejala</h4>
+                <h4 class="mb-0">
+                    @isset($gejala)
+                        Form Edit Gejala
+                    @else
+                        Form Tambah Gejala
+                    @endisset
+                </h4>
             </div>
             <div class="card-body">
                 @isset($gejala)

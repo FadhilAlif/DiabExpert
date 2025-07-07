@@ -22,12 +22,17 @@
                     <tr>
                         <td>{{ $loop->iteration }}.</td>
                         <td>
-                            <a href="/admin/penyakit/{{ $item->id }}"><b>
-                            {{ $item->name }}</b>
-                            </a>
+                            <b>{{ $item->name }}</b>
                         </td>
                         <td>
                             <div class="d-flex justify-content-center align-items-center">
+                                <!-- Tombol Lihat -->
+                                <a href="/admin/penyakit/{{ $item->id }}"
+                                   class="btn btn-info btn-sm mr-2 d-flex align-items-center justify-content-center"
+                                   style="width: 80px; padding: 0.25rem 0.5rem;"
+                                   title="Lihat">
+                                    <i class="fas fa-eye mr-1"></i> Lihat
+                                </a>
                                 <!-- Tombol Edit -->
                                 <a href="/admin/penyakit/{{ $item->id }}/edit"
                                    class="btn btn-warning btn-sm mr-2 d-flex align-items-center justify-content-center"

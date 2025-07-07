@@ -16,6 +16,7 @@
                                 <th>No</th>
                                 <th>Umur</th>
                                 <th>Jenis Kelamin</th>
+                                <th>Tanggal Diagnosa</th>
                                 <th>Diagnosa Penyakit</th>
                                 <th>Keakuratan</th>
                                 <th>Opsi</th>
@@ -32,6 +33,11 @@
                                 
                                 <!-- Jenis Kelamin -->
                                 <td class="text-center">{{ $item->jenis_kelamin }}</td>
+                                
+                                <!-- Tanggal Diagnosa -->
+                                <td class="text-center">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('j F Y, H:i') }}
+                                </td>
                                 
                                 <!-- Diagnosa Penyakit -->
                                 <td class="text-center">
