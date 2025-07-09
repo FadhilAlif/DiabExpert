@@ -1,9 +1,6 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Diagnosa;
-
 use App\Models\Gejala;
 use App\Models\Pasien;
 use App\Models\Penyakit;
@@ -11,7 +8,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminDiagnosaController extends Controller
+class DiagnosaController extends Controller
 {
     /**
      * Menampilkan halaman utama diagnosa penyakit
@@ -20,7 +17,7 @@ class AdminDiagnosaController extends Controller
      */
     public function index()
     {
-        //
+        // Menampilkan halaman utama
         $data = [
             'title'     => 'Diagnosa Penyakit',
             'content'   => 'admin/diagnosa/index'
@@ -43,6 +40,7 @@ class AdminDiagnosaController extends Controller
         ];
         
         $pasien = Pasien::create($data);
+        // Buat session pasien untuk digunakan di proses selanjutnya
         session()->put('pasien_id', $pasien->id);
         
         return redirect('/diagnosa/pilih-gejala'); 
@@ -56,8 +54,9 @@ class AdminDiagnosaController extends Controller
      */
     public function pilihGejala()
     {
-        //
+        // Dapatkan ID pasien dari session
         $pasien_id = session()->get('pasien_id');
+        // Ambil data pasien, gejala, dan gejala yang sudah dipilih
         $data = [
             'title'     => 'Diagnosa Penyakit',
             'pasien'    => Pasien::find($pasien_id),
@@ -171,7 +170,9 @@ class AdminDiagnosaController extends Controller
         if (count($diagnosa) == 0) return;
 
         $penyakit_hasil = [];
+        // Dapatkan semua diagnosa berdasarkan penyakit_id
         $diagnosaPerPenyakit = $diagnosa->groupBy('penyakit_id');
+        // Hitung CF kombinasi untuk setiap penyakit
         foreach ($diagnosaPerPenyakit as $penyakit_id => $diagnosa) {
             $penyakit_hasil[$penyakit_id] = $this->hitung_cf($diagnosa);
         }

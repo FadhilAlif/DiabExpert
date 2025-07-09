@@ -8,7 +8,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminPenyakitController extends Controller
+class PenyakitController extends Controller
 {
     /**
      * Menampilkan daftar semua penyakit

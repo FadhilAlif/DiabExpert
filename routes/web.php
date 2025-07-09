@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\AdminDiagnosaController;
-use App\Http\Controllers\AdminGejalaController;
-use App\Http\Controllers\AdminPasienController;
-use App\Http\Controllers\AdminPenyakitController;
-use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DiagnosaController;
+use App\Http\Controllers\GejalaController;
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\PenyakitController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,21 +25,21 @@ Route::get('/', function () {
 });
 
 // Rute login dan logout hanya untuk admin (guest hanya bisa login)
-Route::get('/login', [AdminAuthController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [AdminAuthController::class, 'login'])->middleware('guest');
-Route::get('/logout', [AdminAuthController::class, 'logout'])->middleware('auth');
+Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 // Rute untuk diagnosa yang bisa diakses oleh user tanpa login
 Route::prefix('/diagnosa')->group(function () {
-    Route::get('/', [AdminDiagnosaController::class, 'index']);
-    Route::post('/create-pasien', [AdminDiagnosaController::class, 'createPasien']);
-    Route::get('/pilih-gejala', [AdminDiagnosaController::class, 'pilihGejala']);
-    Route::get('/pilih', [AdminDiagnosaController::class, 'pilih']);
-    Route::post('/update-kondisi', [AdminDiagnosaController::class, 'updateKondisi']);
-    Route::get('/hapus-gejala', [AdminDiagnosaController::class, 'hapusGejalaTerpilih']);
-    Route::get('/proses', [AdminDiagnosaController::class, 'prosesDiagnosa']);
-    Route::get('/keputusan/{id}', [AdminDiagnosaController::class, 'keputusan']);
-    Route::get('/pasien/cetak/{id}', [AdminPasienController::class, 'print']);
+    Route::get('/', [DiagnosaController::class, 'index']);
+    Route::post('/create-pasien', [DiagnosaController::class, 'createPasien']);
+    Route::get('/pilih-gejala', [DiagnosaController::class, 'pilihGejala']);
+    Route::get('/pilih', [DiagnosaController::class, 'pilih']);
+    Route::post('/update-kondisi', [DiagnosaController::class, 'updateKondisi']);
+    Route::get('/hapus-gejala', [DiagnosaController::class, 'hapusGejalaTerpilih']);
+    Route::get('/proses', [DiagnosaController::class, 'prosesDiagnosa']);
+    Route::get('/keputusan/{id}', [DiagnosaController::class, 'keputusan']);
+    Route::get('/pasien/cetak/{id}', [PasienController::class, 'print']);
 });
 // Rute admin yang membutuhkan login untuk mengakses fitur lainnya
 Route::prefix('/admin')->middleware('auth')->group(function () {
@@ -48,10 +48,10 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         return view('admin.layouts.wrapper');
     });
 
-    Route::resource('/pasien', AdminPasienController::class);
-    Route::resource('/user', AdminUserController::class);
-    Route::resource('/gejala', AdminGejalaController::class);
-    Route::resource('/penyakit', AdminPenyakitController::class);
-    Route::post('/penyakit/add-gejala', [AdminPenyakitController::class, 'addGejala']);
-    Route::delete('/penyakit/delete-role/{id}', [AdminPenyakitController::class, 'deleteRole']);
+    Route::resource('/pasien', PasienController::class);
+    Route::resource('/user', UserController::class);
+    Route::resource('/gejala', GejalaController::class);
+    Route::resource('/penyakit', PenyakitController::class);
+    Route::post('/penyakit/add-gejala', [PenyakitController::class, 'addGejala']);
+    Route::delete('/penyakit/delete-role/{id}', [PenyakitController::class, 'deleteRole']);
 });

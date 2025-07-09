@@ -7,7 +7,7 @@ use App\Models\Pasien;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminPasienController extends Controller
+class PasienController extends Controller
 {
     /**
      * Menampilkan daftar pasien dengan paginasi

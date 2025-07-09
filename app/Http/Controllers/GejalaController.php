@@ -6,7 +6,7 @@ use App\Models\Gejala;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminGejalaController extends Controller
+class GejalaController extends Controller
 {
     /**
      * Menampilkan daftar semua gejala
@@ -99,7 +99,7 @@ class AdminGejalaController extends Controller
         //
         $gejala = Gejala::find($id);
         $data =  $request->validate([
-            'kode_gejala'      => 'required|unique:gejalas',
+            'kode_gejala'      => 'required|unique:gejalas,kode_gejala,' . $id,
             'name'      => 'required',
             'nilai_cf'      => 'required',
         ]);

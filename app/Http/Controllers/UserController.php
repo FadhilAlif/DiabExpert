@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminUserController extends Controller
+class UserController extends Controller
 {
     /**
      * Menampilkan daftar semua pengguna

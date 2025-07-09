@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminAuthController extends Controller
+class AuthController extends Controller
 {
     /**
      * Menampilkan halaman login
