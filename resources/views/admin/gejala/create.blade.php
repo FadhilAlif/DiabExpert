@@ -45,7 +45,7 @@
 
                     <div class="form-group">
                         <label for="nilai_cf">Nilai CF</label>
-                        <input type="text" id="nilai_cf" class="form-control @error('nilai_cf') is-invalid @enderror" 
+                        <input type="number" step="0.1" min="0" max="1" id="nilai_cf" class="form-control @error('nilai_cf') is-invalid @enderror" 
                                name="nilai_cf" placeholder="Masukkan Nilai CF" 
                                value="{{ isset($gejala) ? $gejala->nilai_cf : old('nilai_cf') }}">
                         @error('nilai_cf')

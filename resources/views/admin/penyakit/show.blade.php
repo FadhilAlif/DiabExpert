@@ -29,14 +29,15 @@
                                           <span aria-hidden="true">&times;</span>
                                       </button>
                                   </div>
+
+                                  {{-- Form Tambah Gejala --}}
                                   <div class="modal-body">
                                       <form action="/admin/penyakit/add-gejala" method="post">
                                           @csrf
                                           <input type="hidden" name="penyakit_id" value="{{ $penyakit->id }}">
-
                                           <div class="form-group">
                                             <p for="gejala_id" class="text-left font-weight-bold">Gejala</p>
-                                              <select name="gejala_id" id="gejala_id" class="form-control">
+                                              <select name="gejala_id" id="gejala_id" class="form-control" required>
                                                   <option value="">-- Pilih Gejala --</option>
                                                   @foreach ($gejala as $item)
                                                       @php
@@ -51,7 +52,12 @@
 
                                           <div class="form-group">
                                               <p for="bobot_cf" class="text-left font-weight-bold">Bobot CF</p>
-                                              <input type="text" id="bobot_cf" name="bobot_cf" class="form-control" placeholder="0.0">
+                                              <input type="number" id="bobot_cf" name="bobot_cf" class="form-control @error('bobot_cf') is-invalid @enderror" placeholder="0.0" step="0.1" min="0" max="1" required>
+                                              @error('bobot_cf')
+                                              <div class="invalid-feedback">
+                                                  {{ $message }}
+                                              </div>
+                                              @enderror
                                           </div>
 
                                           <div class="modal-footer">
@@ -83,8 +89,8 @@
                           @foreach ($role as $item)
                               <tr>
                                   <td>{{ $loop->iteration }}</td>
-                                  <td>{{ $item->gejala->kode_gejala }}</td>
-                                  <td>{{ $item->gejala->name }}</td>
+                                  <td>{{ $item->gejala ? $item->gejala->kode_gejala : '-' }}</td>
+                                  <td>{{ $item->gejala ? $item->gejala->name : '-' }}</td>
                                   <td>{{ $item->bobot_cf }}</td>
                                   <td>
                                       <form action="/admin/penyakit/delete-role/{{ $item->id }}" method="POST" class="d-inline">
