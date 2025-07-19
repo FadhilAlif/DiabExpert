@@ -154,7 +154,7 @@
                             </div>
                             @endif
                         </table>
-                        <a href="{{ url('/diagnosa/proses') }}" class="btn btn-primary btn-block">
+                        <a href="{{ url('/diagnosa/proses') }}" class="btn btn-primary btn-block" id="btn-proses-diagnosa">
                             <i class="fas fa-play"></i> Proses Diagnosa
                         </a>
                     </div>
@@ -174,6 +174,29 @@
                 updateKondisi(diagnosaId);
             });
         });
+
+        // Disable tombol Proses Diagnosa jika belum ada gejala terpilih ---
+        const btnProses = document.getElementById('btn-proses-diagnosa');
+        // Hitung jumlah baris gejala terpilih (hanya baris data, bukan baris kosong/error)
+        const tbodyTerpilih = document.querySelector('.col-md-6 table.table-striped tbody');
+        const jumlahGejalaTerpilih = tbodyTerpilih ? tbodyTerpilih.querySelectorAll('tr').length : 0;
+        if (btnProses) {
+            if (jumlahGejalaTerpilih === 0) {
+                btnProses.classList.add('disabled', 'cursor-not-allowed');
+                btnProses.setAttribute('aria-disabled', 'true');
+                btnProses.setAttribute('tabindex', '-1');
+                // Hanya tambahkan event preventDefault jika belum ada
+                if (!btnProses.hasAttribute('data-disabled')) {
+                    btnProses.addEventListener('click', function(e) { e.preventDefault(); });
+                    btnProses.setAttribute('data-disabled', 'true');
+                }
+            } else {
+                btnProses.classList.remove('disabled');
+                btnProses.removeAttribute('aria-disabled');
+                btnProses.removeAttribute('tabindex');
+                btnProses.removeAttribute('data-disabled');
+            }
+        }
     });
 
     /**
